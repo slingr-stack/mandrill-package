@@ -1,0 +1,62 @@
+{
+  "label": "Send email to mandrill",
+  "name": "sendEmailMandrill",
+  "category": "integrations",
+  "description": "This flow step will send generic request",
+  "inputs": [
+    {
+      "label": "From",
+      "name": "from",
+      "type": "text",
+      "required": true,
+      "options": {
+        "allowContextSelector": "true"
+      }
+    },
+    {
+      "label": "To",
+      "name": "to",
+      "type": "text",
+      "required": true,
+      "options": {
+        "validation": "email",
+        "allowContextSelector": "true"
+      }
+    },
+    {
+      "label": "Subject",
+      "name": "subject",
+      "type": "text",
+      "required": true,
+      "options": {
+        "allowContextSelector": "true"
+      }
+    },
+    {
+      "label": "Message",
+      "name": "message",
+      "type": "text",
+      "required": true,
+      "options": {
+        "allowContextSelector": "true",
+        "representation": "textArea"
+      }
+    },
+    {
+      "label": "Attach file",
+      "name": "attachFile",
+      "type": "fileUploader",
+      "description": "Allows you to attach a file.",
+      "visibility": true,
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "label": "Response",
+      "name": "response",
+      "type": "object",
+      "description": "The response to external URL"
+    }
+  ]
+}

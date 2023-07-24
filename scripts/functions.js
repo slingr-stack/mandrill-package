@@ -994,7 +994,7 @@ var parse = function (str) {
  ****************************************************/
 
 
-var MANDRILL_API_BASE_URL = "https://mandrillapp.com/api/1.0/"; // TODO: Set the base url
+var MANDRILL_API_BASE_URL = config.get("url"); // TODO: Set the base url
 var API_URL = MANDRILL_API_BASE_URL+""; // TODO: Set the base url for the api
 
 /****************************************************

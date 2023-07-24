@@ -17,368 +17,773 @@
 
 # Overview
 
-The "SLINGR Helpers Generator" is a simple CLI based module that is used to easily generate the "helpers" file for SLINGR endpoints.  
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Last Updated</th>
+        <th>Summary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Mandrill package</td>
+        <td>July 24, 2023</td>
+        <td>Detailed description of the API of the Mandrill package.</td>
+    </tr>
+    </tbody>
+</table>
 
-Some features are:
+# Overview
 
-- Conversion of URL to camelCase (eg. dashes, underscore).
-- Group helpers with similar functionalities with "prefixes".
-- Add custom names (suffixes) to helper functions.
-- Omit parts of the URL that you don't want on the final helper.
-- Automatic numbering of repeated URL parameters.
-- Supporting GET, PUT, PATCH, POST, HEAD, OPTIONS, CONNECT, & TRACE methods.
-- Generation of http generic helpers.
-- Generation of helpers documentation.
+# Javascript API
 
-# Installation
+The Javascript API of the mandrill package has three pieces:
 
-To install the module, just run the following command in the command line:
+- **HTTP requests**: These allow to make regular HTTP requests.
+- **Shortcuts**: These are helpers to make HTTP request to the API in a more convenient way.
+- **Additional Helpers**: These helpers provide additional features that facilitate or improves the endpoint usage in SLINGR.
 
-```
-npm install slingr-helpgen
-```
-
-If you want to install it globally you can run this:
-```
-npm install -g slingr-helpgen
-```
-
-# How to use
-
-## Configuration File
-This module will receive a ".json" file as parameter that must be located on the ``gen`` folder on the endpoint project.
-The module will read this file and based on the content, will generate the helpers for the endpoint.
-
-For paths that repeat the same pattern:
-Be careful, the paths must have an order, from lesser amount of variables to greater amount (paths without variables should be first in the .json file).
-
-The file must look like this:
-```json
-{
-	"fileName": "", //Optional, the name of the generated helpers file.
-	"endpointName": "", //Required, the name of the endpoint, used to generate some logs with the endpoint name.
-    "omittableUrlParts": [ //Optional, Sections of the url that have to be omitted (or replaced) on the helper generation.
-		"someString", //If specified as a string, it will be ommited from the helper.
-		{"replace":"someString","with":"someOtherString"} //If specified as object, it will replace the part with the value provided.
-	], 
-	"apiDescriptors": [
-		{
-			"prefix": "somePrefix", //Optional, this will be added at the beggining of the helper, can be used to group similar calls.
-			"suffix": "someNameOfYourLikeness", //Optional, this will be added at the end of the helper. If empty or not declared, it will have the URL segments only.
-			"method": "GET/PUT/PATCH/POST/HEAD/OPTIONS/DELETE", //Required, method of the HTTP Request.
-			"url": "/someUrlPart/:someParam/someOtherUrlPart", //Required, url of the endpoint without the "base". Query params must not be defined here, only URL params.
-            "queryParams": ["param2", "param3"], //Optional, query variable params to be added to the helper.
-			"omittableUrlParts": ["someString",{"replace":"someString","with":"someOtherString"}], //Optional, The same as the top level one, but specific to only this api entry. This one will override the top level one.
-			"acceptsCallbacks": false, //Optional. If this field is true it will add the "callbackData" and "callback" parameters to the helper to allow the managment of events.
-			"docsLinks": ["someURL.com"], //Optional. These links will be inserted in the helpers documentation for fast reference to the original API docs.
-            "injectedHelper": false //Optional. If this field is true, it will not generate the helper, but it will inject the code from gen/injection.js.
-		}
-	]
-}
-```
-You can also generate this file by running the following command at the root folder of the endpoint project:
-```
-slingr-helpgen --exampleFile
-```
-Or 
-```
-slingr-helpgen -f
-```
-This will generate a template file called ``exampleGeneratorConfig.json`` similar to the above one in the ``gen`` folder (if the folder does not exist, it will generate it too).
-
-## Generating helpers 
-You call the module by entering the following command:
-```
-slingr-helpgen
-``` 
-This will generate several files on the ``scripts`` folder (it will also create the folder if it doesn't exist):
-1. A ".js" file with name of ``fileName`` value defined in the configuration file.
-2. A `helpersDocs.md` file with some "copy-pastable" documentations of the endpoint helpers. (You can avoid this by passing `--noDocs` or `-n` parameter);
-3. If not existing, it will generate a file called `http-generic-helpers.js`. This is a generic file that contains the helpers used by the HTTP endpoint to handle the requests.
-
-# Generation Examples
-If you run the generator with a ".json" file like this:
-```json
-{
-	"fileName": "testEndpoint-helpers",
-	"endpointName": "testEndpoint",
-    "omittableUrlParts": ["v1"],
-	"apiDescriptors": [
-		{
-			"prefix": "", 
-			"suffix": "",
-			"method": "GET", 
-			"url": "/v2/patients/:patientId/read-patient"
-		},
-		{
-			"prefix": "", 
-			"suffix": "",
-			"method": "GET", 
-			"url": "/v2/orders/:id/reports/:id",
-			"acceptsCallbacks": true
-		},
-		{
-			"prefix": "updates", 
-			"suffix": "",
-			"method": "PUT", 
-			"url": "/v2/orders/:orderId/tests"
-		},
-		{
-			"prefix": "", 
-			"suffix": "updateOrder",
-			"method": "PATCH", 
-			"omittableUrlParts": [{"replace":"v1","with":"oldApi"}],
-			"url": "/v1/orders/:orderId"
-		},
-		{
-			"prefix": "creations", 
-			"suffix": "new-patient",
-			"method": "POST", 
-			"url": "/v1/patients"
-		}
-	]
-}
-```
-You will generate a file named "testEndpoint-helpers.js" on the ``gen`` folder with the following code:
+## HTTP requests
+You can make `POST` requests to the [mandrill API](API_URL_HERE) like this:
 ```javascript
-endpoint.v2 = {};
-
-endpoint.v2.patients = {};
-
-endpoint.v2.patients.readPatient = function(patientId, httpOptions) {
-	if (!patientId) {
-		sys.logs.error('Invalid argument received. This helper should receive the following parameters as non-empty strings: [patientId].');
-		return;
-	}
-	var url = parse('/v2/patients/:patientId/read-patient', [patientId]);
-	sys.logs.debug('[testEndpoint] GET from: ' + url);
-	return endpoint.get(url, httpOptions);
-};
-
-endpoint.v2.orders = {};
-
-endpoint.v2.orders.reports = function(id, id2, httpOptions, callbackData, callbacks) {
-	if (!orderId || !reportId) {
-		sys.logs.error('Invalid argument received. This helper should receive the following parameters as non-empty strings: [id,id2].');
-		return;
-	}
-	var url = parse('/v2/orders/:orderId/reports/:reportId', [id, id2]);
-	sys.logs.debug('[testEndpoint] GET from: ' + url);
-	return endpoint.get(url, httpOptions, callbackData, callbacks);
-};
-
-endpoint.updates = {};
-
-endpoint.updates.v2 = {};
-
-endpoint.updates.v2.orders = {};
-
-endpoint.updates.v2.orders.tests = function(orderId, httpOptions) {
-	if (!orderId) {
-		sys.logs.error('Invalid argument received. This helper should receive the following parameters as non-empty strings: [orderId].');
-		return;
-	}
-	var url = parse('/v2/orders/:orderId/tests', [orderId]);
-	sys.logs.debug('[testEndpoint] PUT from: ' + url);
-	return endpoint.put(url, httpOptions);
-};
-
-endpoint.orders = {};
-
-endpoint.orders.updateOrder = function(orderId, httpOptions) {
-	if (!orderId) {
-		sys.logs.error('Invalid argument received. This helper should receive the following parameters as non-empty strings: [orderId].');
-		return;
-	}
-	var url = parse('/v1/orders/:orderId', [orderId]);
-	sys.logs.debug('[testEndpoint] PATCH from: ' + url);
-	return endpoint.patch(url, httpOptions);
-};
-
-endpoint.creations = {};
-
-endpoint.creations.oldApi = {};
-
-endpoint.creations.oldApi.patients = {};
-
-endpoint.creations.oldApi.patients.newPatient = function(httpOptions) {
-	var url = parse('/v1/patients');
-	sys.logs.debug('[testEndpoint] POST from: ' + url);
-	return endpoint.post(url, httpOptions);
-};
+var response = pkg.mandrill.post('/whitelists/list', body)
+var response = pkg.mandrill.post('/whitelists/list')
 ```
-As you can see, each ``apiDescriptor`` object generates one helper. 
 
-## Example 1
-You can see how the following descriptor:
-```json
-{
-	"prefix": "", 
-	"suffix": "",
-	"method": "GET", 
-	"url": "/v2/patients/:patientId/read-patient"
-}
+Please take a look at the documentation of the [HTTP endpoint](https://github.com/slingr-stack/http-endpoint#javascript-api)
+for more information about generic requests.
+
+## Shortcuts
+
+Instead of having to use the generic HTTP methods, you can (and should) make use of the helpers provided in the endpoint:
+<details>
+    <summary>Click here to see all the helpers</summary>
+
+<br>
+
+* API URL: '/users/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.users.info.post(body)
 ```
-Generates the following helper:
-```js
-endpoint.v2.patients.readPatient = function(patientId, httpOptions) {
-	if (!patientId) {
-		sys.logs.error('Invalid argument received. This helper should receive the following parameters as non-empty strings: [patientId].');
-		return;
-	}
-	var url = parse('/v2/patients/:patientId/read-patient', [patientId]);
-	sys.logs.debug('[testEndpoint] GET from: ' + url);
-	return endpoint.get(url, httpOptions);
-};
+---
+* API URL: '/users/ping'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.users.ping.post(body)
 ```
-Diving a little bit into how the "apiDescriptor" was converted:
-1. Note how the helper does not have prefix nor suffix so the whole name is derived from the URL. 
-2. Note that the "read-patient" part of the url got converted to camelCase.
-3. Note that the URL parameters are not included in the helper name declaration, but are expected as arguments in the function.
-4. Note how the `method` and `endpointName` are also used in the helper's function.
-5. Lastly, you can see that the function also receives a parameter called "httpOptions", this is an optional parameter for **every helper** that specifies some options for the HTTP request. For more information about what can be sent on this parameter check the [HTTP Endpoint Documentation - Javascript API](https://github.com/slingr-stack/http-endpoint#javascript-api).
-
-## Example 2
-For the second one:
-```json
-{
-	"prefix": "", 
-	"suffix": "",
-	"method": "GET", 
-	"url": "/v2/orders/:id/reports/:id",
-	"acceptsCallbacks": true
-}
+---
+* API URL: '/users/ping2'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.users.ping2.post(body)
 ```
-You get:
-```js
-endpoint.v2.orders.reports = function(id, id2, httpOptions, callbackData, callbacks) {
-	if (!orderId || !reportId) {
-		sys.logs.error('Invalid argument received. This helper should receive the following parameters as non-empty strings: [id,id2].');
-		return;
-	}
-	var url = parse('/v2/orders/:orderId/reports/:reportId', [id, id2]);
-	sys.logs.debug('[testEndpoint] GET from: ' + url);
-	return endpoint.get(url, httpOptions, callbackData, callbacks);
-};
+---
+* API URL: '/users/senders'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.users.senders.post(body)
 ```
-Here two things happened:
-1. First, see how additional parameters to accept a callback are generated:
-When you add the `acceptsCallbacks` property on the "apiDescriptor" you will see that the helper generated will receive two additional parameters: `callbackData` and `callbacks`. You can check the [HTTP Endpoint Documentation - Downloading Files](https://github.com/slingr-stack/http-endpoint#downloading-files) to see an example of callbacks being used to download files.
-2. See how the URL specified in the apiDescriptor has two URL params that are the same (`:id`). The tool will number them in increasing integers to differentiate them on the function parameters.
-
-*NOTE: The `parse()` function will parse the URL params in order of appearance, so the arguments passed do not need to match the name of the URL params, they just need to be passed in the correct order.*
-
-## Example 3
-And for the third one:
-```json
-{
-	"prefix": "updates", 
-	"suffix": "",
-	"method": "PUT", 
-	"url": "/v2/orders/:orderId/tests"
-}
+---
+* API URL: '/messages/send'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.send.post(body)
 ```
-You get:
-```js
-endpoint.updates.v2.orders.tests = function(orderId, httpOptions) {
-	if (!orderId) {
-		sys.logs.error('Invalid argument received. This helper should receive the following parameters as non-empty strings: [orderId].');
-		return;
-	}
-	var url = parse('/v2/orders/:orderId/tests', [orderId]);
-	sys.logs.debug('[testEndpoint] PUT from: ' + url);
-	return endpoint.put(url, httpOptions);
-};
+---
+* API URL: '/messages/send-template'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.sendTemplate.post(body)
 ```
-Note that the prefix ```updates``` is added in the first part of the helper.
-
-## Example 4
-And for the fourth one:
-```json
-{
-	"prefix": "", 
-	"suffix": "updateOrder",
-	"method": "PATCH", 
-	"url": "/v1/orders/:orderId"
-}
+---
+* API URL: '/messages/search'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.search.post(body)
 ```
-You get:
-```js
-endpoint.orders.updateOrder = function(orderId, httpOptions) {
-	if (!orderId) {
-		sys.logs.error('Invalid argument received. This helper should receive the following parameters as non-empty strings: [orderId].');
-		return;
-	}
-	var url = parse('/v1/orders/:orderId', [orderId]);
-	sys.logs.debug('[testEndpoint] PATCH from: ' + url);
-	return endpoint.patch(url, httpOptions);
-};
+---
+* API URL: '/messages/search-time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.searchTimeSeries.post(body)
 ```
-Here two things happened:
-1. Note that the suffix is added at the end of the helper.
-2. Note that we had the property `"omittableUrlParts"` on the root of the JSON file. What this does is "omit" the matching parts of the url on the helper function definition. As we got `["v1"]` on the value, that part was omitted on the helper.
-
-## Example 5
-Lastly, you have the apiDescriptor:
-```json
-{
-	"prefix": "creations", 
-	"suffix": "new-patient",
-	"method": "POST", 
-	"omittableUrlParts": [{"replace":"v1","with":"oldApi"}],
-	"url": "/v1/patients"
-}
+---
+* API URL: '/messages/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.info.post(body)
 ```
-You get:
-```js
-endpoint.creations.oldApi.patients.newPatient = function(httpOptions) {
-	var url = parse('/v1/patients');
-	sys.logs.debug('[testEndpoint] POST from: ' + url);
-	return endpoint.post(url, httpOptions);
-};
+---
+* API URL: '/messages/content'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.content.post(body)
 ```
-Here several things happened:
-1. Note how both the prefix and suffix were added at the start and end of the helper (respectively). 
-2. The `suffix` property got converted to camelCase, however this will trigger a warning on the console. We recommend using camelCase instead of separators like ".", "-" or "_". 
-3. We have the `"omittableUrlParts"` property **inside** the apiDescriptor. This works the same as the top level one, but scoped only to this apyEntry in particular and overriding the top level one. Note that instead of a string, we have an object. What this will do is to replace the `"replace"` part of the url with the desired `"with"` value on the helper. So instead of `endpoint.creations.v1.patients.newPatient` we got `endpoint.creations.oldApi.patients.newPatient`. If `"omittableUrlParts"` is defined as `[]` it will ignore the top's level one.
-
-## Usage on SLINGR
-If the previous helpers were part of an endpoint deployed on SLINGR, we could call them from a script in the SLINGR app as follows:
-```js
-app.endpoints.testEndpoint.v2.patients.readPatient(patientId, httpOptions);
-app.endpoints.testEndpoint.v2.orders.reports(orderId, reportId, httpOptions, callbackData, callbacks);
-app.endpoints.testEndpoint.updates.v2.orders.tests(orderId, jsonBody);
-app.endpoints.testEndpoint.orders.updateOrder(orderId, jsonBody);
-app.endpoints.testEndpoint.creations.oldApi.patients.newPatient(jsonBody);
+---
+* API URL: '/messages/parse'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.parse.post(body)
 ```
-Or:
-```js
-var res = app.endpoints.testEndpoint.v2.patients.readPatient(patientId, httpOptions);
-var res2 = app.endpoints.testEndpoint.v2.orders.reports(orderId, reportId, httpOptions, callbackData, callbacks);
-var res3 = app.endpoints.testEndpoint.updates.v2.orders.tests(orderId, jsonBody);
-var res4 = app.endpoints.testEndpoint.orders.updateOrder(orderId, jsonBody);
-var res5 = app.endpoints.testEndpoint.creations.oldApi.patients.newPatient(jsonBody);
+---
+* API URL: '/messages/send-raw'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.sendRaw.post(body)
 ```
-Depending on the response expected from the http request, we can (or not) assign the result to a variable.
-
-**Important:** The `httpOptions` parameter may be optional, so the helpers can be called without passing it as argument, this is the way it's documented on each endpoint, but you can pass these arguments anyway. In some other cases though, it will be required as it will have the body of `PATCH`,`PUT` & `POST` requests (in the above examples, `jsonBody`).
-
-# Improving the module
-If you have new features to propose, or you have detected bugs/issues, feel free to create tickets.
-
-# Testing the module
-If you want to run the tests there are two additional step that you will need to follow to successfully run the tests:
-
-1. Create a `gen` and `scripts` folders in the root package of the module and also create a `endpoint.json` file in the root folder.
-2. Run the following command on the root directory:
+---
+* API URL: '/messages/list-scheduled'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.listScheduled.post(body)
 ```
-npm run test
-``` 
+---
+* API URL: '/messages/cancel-scheduled'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.cancelScheduled.post(body)
+```
+---
+* API URL: '/messages/reschedule'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.messages.reschedule.post(body)
+```
+---
+* API URL: '/tags/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.tags.list.post(body)
+```
+---
+* API URL: '/tags/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.tags.delete.post(body)
+```
+---
+* API URL: '/tags/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.tags.info.post(body)
+```
+---
+* API URL: '/tags/time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.tags.timeSeries.post(body)
+```
+---
+* API URL: '/tags/all-time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.tags.allTimeSeries.post(body)
+```
+---
+* API URL: '/rejects/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.rejects.add.post(body)
+```
+---
+* API URL: '/rejects/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.rejects.list.post(body)
+```
+---
+* API URL: '/rejects/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.rejects.delete.post(body)
+```
+---
+* API URL: '/whitelists/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.whitelists.add.post(body)
+```
+---
+* API URL: '/whitelists/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.whitelists.list.post(body)
+```
+---
+* API URL: '/whitelists/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.whitelists.delete.post(body)
+```
+---
+* API URL: '/senders/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.senders.list.post(body)
+```
+---
+* API URL: '/senders/domains'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.senders.domains.post(body)
+```
+---
+* API URL: '/senders/add-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.senders.addDomain.post(body)
+```
+---
+* API URL: '/senders/check-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.senders.checkDomain.post(body)
+```
+---
+* API URL: '/senders/verify-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.senders.verifyDomain.post(body)
+```
+---
+* API URL: '/senders/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.senders.info.post(body)
+```
+---
+* API URL: '/senders/time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.senders.timeSeries.post(body)
+```
+---
+* API URL: '/urls/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.urls.list.post(body)
+```
+---
+* API URL: '/urls/search'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.urls.search.post(body)
+```
+---
+* API URL: '/urls/time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.urls.timeSeries.post(body)
+```
+---
+* API URL: '/urls/tracking-domains'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.urls.trackingDomains.post(body)
+```
+---
+* API URL: '/urls/check-tracking-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.urls.checkTrackingDomain.post(body)
+```
+---
+* API URL: '/templates/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.templates.add.post(body)
+```
+---
+* API URL: '/templates/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.templates.info.post(body)
+```
+---
+* API URL: '/templates/update'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.templates.update.post(body)
+```
+---
+* API URL: '/templates/publish'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.templates.publish.post(body)
+```
+---
+* API URL: '/templates/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.templates.delete.post(body)
+```
+---
+* API URL: '/templates/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.templates.list.post(body)
+```
+---
+* API URL: '/templates/time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.templates.timeSeries.post(body)
+```
+---
+* API URL: '/templates/render'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.templates.render.post(body)
+```
+---
+* API URL: '/webhooks/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.webhooks.list.post(body)
+```
+---
+* API URL: '/webhooks/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.webhooks.add.post(body)
+```
+---
+* API URL: '/webhooks/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.webhooks.info.post(body)
+```
+---
+* API URL: '/webhooks/update'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.webhooks.update.post(body)
+```
+---
+* API URL: '/webhooks/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.webhooks.delete.post(body)
+```
+---
+* API URL: '/subaccounts/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.subaccounts.list.post(body)
+```
+---
+* API URL: '/subaccounts/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.subaccounts.add.post(body)
+```
+---
+* API URL: '/subaccounts/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.subaccounts.info.post(body)
+```
+---
+* API URL: '/subaccounts/update'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.subaccounts.update.post(body)
+```
+---
+* API URL: '/subaccounts/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.subaccounts.delete.post(body)
+```
+---
+* API URL: '/subaccounts/pause'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.subaccounts.pause.post(body)
+```
+---
+* API URL: '/subaccounts/resume'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.subaccounts.resume.post(body)
+```
+---
+* API URL: '/inbound/domains'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.domains.post(body)
+```
+---
+* API URL: '/inbound/add-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.addDomain.post(body)
+```
+---
+* API URL: '/inbound/check-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.checkDomain.post(body)
+```
+---
+* API URL: '/inbound/delete-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.deleteDomain.post(body)
+```
+---
+* API URL: '/inbound/routes'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.routes.post(body)
+```
+---
+* API URL: '/inbound/add-route'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.addRoute.post(body)
+```
+---
+* API URL: '/inbound/update-route'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.updateRoute.post(body)
+```
+---
+* API URL: '/inbound/delete-route'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.deleteRoute.post(body)
+```
+---
+* API URL: '/inbound/send-raw'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.inbound.sendRaw.post(body)
+```
+---
+* API URL: '/exports/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.exports.info.post(body)
+```
+---
+* API URL: '/exports/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.exports.list.post(body)
+```
+---
+* API URL: '/exports/rejects'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.exports.rejects.post(body)
+```
+---
+* API URL: '/exports/whitelist'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.exports.whitelist.post(body)
+```
+---
+* API URL: '/exports/activity'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.exports.activity.post(body)
+```
+---
+* API URL: '/ips/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.list.post(body)
+```
+---
+* API URL: '/ips/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.info.post(body)
+```
+---
+* API URL: '/ips/provision'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.provision.post(body)
+```
+---
+* API URL: '/ips/start-warmup'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.startWarmup.post(body)
+```
+---
+* API URL: '/ips/cancel-warmup'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.cancelWarmup.post(body)
+```
+---
+* API URL: '/ips/set-pool'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.setPool.post(body)
+```
+---
+* API URL: '/ips/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.delete.post(body)
+```
+---
+* API URL: '/ips/list-pools'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.listPools.post(body)
+```
+---
+* API URL: '/ips/pool-info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.poolInfo.post(body)
+```
+---
+* API URL: '/ips/create-pool'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.createPool.post(body)
+```
+---
+* API URL: '/ips/delete-pool'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.deletePool.post(body)
+```
+---
+* API URL: '/ips/check-custom-dns'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.checkCustomDns.post(body)
+```
+---
+* API URL: '/ips/set-custom-dns'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.ips.setCustomDns.post(body)
+```
+---
+* API URL: '/metadata/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.metadata.list.post(body)
+```
+---
+* API URL: '/metadata/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.metadata.add.post(body)
+```
+---
+* API URL: '/metadata/update'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.metadata.update.post(body)
+```
+---
+* API URL: '/metadata/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.metadata.delete.post(body)
+```
+---
 
-# About SLINGR
-SLINGR is a low-code rapid application development platform that accelerates development, with robust architecture for integrations and executing custom workflows and automation.
+</details>
 
-[More info about SLINGR](https://slingr.io)
+## Flow Step
 
-# License
-This endpoint is licensed under the Apache License 2.0. Check [this](https://www.apache.org/licenses/LICENSE-2.0) for more details.
+As an alternative option to using scripts, you can make use of Flows and Flow Steps specifically created for the endpoint:
+<details>
+    <summary>Click here to see the Flow Steps</summary>
+
+<br>
+
+
+
+### Generic Flow Step
+
+Generic flow step for full use of the entire endpoint and its services.
+
+<h3>Inputs</h3>
+
+<table>
+    <thead>
+    <tr>
+        <th>Label</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Default</th>
+        <th>Visibility</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>URL (Method)</td>
+        <td>choice</td>
+        <td>yes</td>
+        <td> - </td>
+        <td>Always</td>
+        <td>
+            This is the http method to be used against the endpoint. <br>
+            Possible values are: <br>
+            <i><strong>POST</strong></i>
+        </td>
+    </tr>
+    <tr>
+        <td>URL (Path)</td>
+        <td>choice</td>
+        <td>yes</td>
+        <td> - </td>
+        <td>Always</td>
+        <td>
+            The url to which this endpoint will send the request. This is the exact service to which the http request will be made. <br>
+            Possible values are: <br>
+            <i><strong>/users/info<br>/users/ping<br>/users/ping2<br>/users/senders<br>/messages/send<br>/messages/send-template<br>/messages/search<br>/messages/search-time-series<br>/messages/info<br>/messages/content<br>/messages/parse<br>/messages/send-raw<br>/messages/list-scheduled<br>/messages/cancel-scheduled<br>/messages/reschedule<br>/tags/list<br>/tags/delete<br>/tags/info<br>/tags/time-series<br>/tags/all-time-series<br>/rejects/add<br>/rejects/list<br>/rejects/delete<br>/whitelists/add<br>/whitelists/list<br>/whitelists/delete<br>/senders/list<br>/senders/domains<br>/senders/add-domain<br>/senders/check-domain<br>/senders/verify-domain<br>/senders/info<br>/senders/time-series<br>/urls/list<br>/urls/search<br>/urls/time-series<br>/urls/tracking-domains<br>/urls/check-tracking-domain<br>/templates/add<br>/templates/info<br>/templates/update<br>/templates/publish<br>/templates/delete<br>/templates/list<br>/templates/time-series<br>/templates/render<br>/webhooks/list<br>/webhooks/add<br>/webhooks/info<br>/webhooks/update<br>/webhooks/delete<br>/subaccounts/list<br>/subaccounts/add<br>/subaccounts/info<br>/subaccounts/update<br>/subaccounts/delete<br>/subaccounts/pause<br>/subaccounts/resume<br>/inbound/domains<br>/inbound/add-domain<br>/inbound/check-domain<br>/inbound/delete-domain<br>/inbound/routes<br>/inbound/add-route<br>/inbound/update-route<br>/inbound/delete-route<br>/inbound/send-raw<br>/exports/info<br>/exports/list<br>/exports/rejects<br>/exports/whitelist<br>/exports/activity<br>/ips/list<br>/ips/info<br>/ips/provision<br>/ips/start-warmup<br>/ips/cancel-warmup<br>/ips/set-pool<br>/ips/delete<br>/ips/list-pools<br>/ips/pool-info<br>/ips/create-pool<br>/ips/delete-pool<br>/ips/check-custom-dns<br>/ips/set-custom-dns<br>/metadata/list<br>/metadata/add<br>/metadata/update<br>/metadata/delete<br></strong></i>
+        </td>
+    </tr>
+    <tr>
+        <td>Headers</td>
+        <td>keyValue</td>
+        <td>no</td>
+        <td> - </td>
+        <td>Always</td>
+        <td>
+            Used when you want to have a custom http header for the request.
+        </td>
+    </tr>
+    <tr>
+        <td>Query Params</td>
+        <td>keyValue</td>
+        <td>no</td>
+        <td> - </td>
+        <td>Always</td>
+        <td>
+            Used when you want to have a custom query params for the http call.
+        </td>
+    </tr>
+    <tr>
+        <td>Body</td>
+        <td>json</td>
+        <td>no</td>
+        <td> - </td>
+        <td>Always</td>
+        <td>
+            A payload of data can be sent to the server in the body of the request.
+        </td>
+    </tr>
+    <tr>
+        <td>Override Settings</td>
+        <td>boolean</td>
+        <td>no</td>
+        <td> false </td>
+        <td>Always</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Follow Redirect</td>
+        <td>boolean</td>
+        <td>no</td>
+        <td> false </td>
+        <td> overrideSettings </td>
+        <td>Indicates that the resource has to be downloaded into a file instead of returning it in the response.</td>
+    </tr>
+    <tr>
+        <td>Download</td>
+        <td>boolean</td>
+        <td>no</td>
+        <td> false </td>
+        <td> overrideSettings </td>
+        <td>If true the method won't return until the file has been downloaded, and it will return all the information of the file.</td>
+    </tr>
+    <tr>
+        <td>File name</td>
+        <td>text</td>
+        <td>no</td>
+        <td></td>
+        <td> overrideSettings </td>
+        <td>If provided, the file will be stored with this name. If empty the file name will be calculated from the URL.</td>
+    </tr>
+    <tr>
+        <td>Full response</td>
+        <td> boolean </td>
+        <td>no</td>
+        <td> false </td>
+        <td> overrideSettings </td>
+        <td>Include extended information about response</td>
+    </tr>
+    <tr>
+        <td>Connection Timeout</td>
+        <td> number </td>
+        <td>no</td>
+        <td> 5000 </td>
+        <td> overrideSettings </td>
+        <td>Connect timeout interval, in milliseconds (0 = infinity).</td>
+    </tr>
+    <tr>
+        <td>Read Timeout</td>
+        <td> number </td>
+        <td>no</td>
+        <td> 60000 </td>
+        <td> overrideSettings </td>
+        <td>Read timeout interval, in milliseconds (0 = infinity).</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Outputs</h3>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>response</td>
+        <td>object</td>
+        <td>
+            Object resulting from the response to the endpoint call.
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</details>
+
+For more information about how shortcuts or flow steps works, and how they are generated, take a look at the [slingr-helpgen tool](https://github.com/slingr-stack/slingr-helpgen).
+
+## Additional Flow Step
+
+
+<details>
+    <summary>Click here to see the Customs Flow Steps</summary>
+
+<br>
+
+
+
+### Custom Flow Steps Name
+
+Description of Custom Flow Steps
+
+*MANUALLY ADD THE DOCUMENTATION OF THESE FLOW STEPS HERE...*
+
+
+</details>
+
+## Additional Helpers
+*MANUALLY ADD THE DOCUMENTATION OF THESE HELPERS HERE...*

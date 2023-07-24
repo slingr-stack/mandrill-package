@@ -1053,10 +1053,6 @@ function setApiUri(options) {
 
 function setRequestHeaders(options) {
     var headers = options.headers || {};
-    if (config.get("authenticationMethod") === "apiKey") { // TODO: Set the authentication method if needed or remove this if
-        sys.logs.debug('[mandrill] Set header apikey');
-        headers = mergeJSON(headers, {"Authorization": "API-Key " + config.get("apiKey")});
-    }
     headers = mergeJSON(headers, {"Content-Type": "application/json"});
 
     options.headers = headers;

@@ -41,14 +41,6 @@
         "allowContextSelector": "true",
         "representation": "textArea"
       }
-    },
-    {
-      "label": "Attach file",
-      "name": "attachFile",
-      "type": "fileUploader",
-      "description": "Allows you to attach a file.",
-      "visibility": true,
-      "required": false
     }
   ],
   "outputs": [

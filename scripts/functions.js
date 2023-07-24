@@ -2,7 +2,7 @@
  Dependencies
  ****************************************************/
 
-var httpService = svc.http;
+var httpService = dependencies.http;
 
 /****************************************************
  Helpers
@@ -244,8 +244,15 @@ exports.users.senders.post = function(httpOptions) {
 
 exports.messages.send.post = function(httpOptions) {
     var url = parse('/messages/send');
+
+    if (httpOptions.message !== null) {
+        httpOptions.message.from_email = config.get("account");
+        httpOptions.message.headers = {}
+    }
+
     sys.logs.debug('[mandrill] POST from: ' + url);
     var options = checkHttpOptions(url, httpOptions);
+
     return httpService.post(Mandrill(options));
 };
 
@@ -987,7 +994,7 @@ var parse = function (str) {
  ****************************************************/
 
 
-var MANDRILL_API_BASE_URL = ""; // TODO: Set the base url
+var MANDRILL_API_BASE_URL = "https://mandrillapp.com/api/1.0/"; // TODO: Set the base url
 var API_URL = MANDRILL_API_BASE_URL+""; // TODO: Set the base url for the api
 
 /****************************************************
@@ -996,8 +1003,9 @@ var API_URL = MANDRILL_API_BASE_URL+""; // TODO: Set the base url for the api
 
 var Mandrill = function (options) {
     options = options || {};
-    options= setApiUri(options);
-    options= setRequestHeaders(options);
+    options = setApiUri(options);
+    options = setRequestHeaders(options);
+    options = setRequestBody(options);
     return options;
 }
 
@@ -1017,7 +1025,7 @@ function setRequestHeaders(options) {
     if (config.get("authenticationMethod") === "apiKey") { // TODO: Set the authentication method if needed or remove this if
         sys.logs.debug('[mandrill] Set header apikey');
         headers = mergeJSON(headers, {"Authorization": "API-Key " + config.get("apiKey")});
-    } 
+    }
     headers = mergeJSON(headers, {"Content-Type": "application/json"});
 
     options.headers = headers;
@@ -1034,4 +1042,11 @@ function mergeJSON (json1, json2) {
         if(json2.hasOwnProperty(key)) result[key] = json2[key];
     }
     return result;
+}
+
+function setRequestBody(options) {
+    var body = options.body || {};
+    body.key = body.key || config.get("apiKey");
+    options.body = body;
+    return options;
 }

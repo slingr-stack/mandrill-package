@@ -1,3 +1,20 @@
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Last Updated</th>
+        <th>Summary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Mandrill package</td>
+        <td>July 24, 2023</td>
+        <td>Detailed description of the API of the Mandrill package.</td>
+    </tr>
+    </tbody>
+</table>
+
 # Overview
 
 The "SLINGR Helpers Generator" is a simple CLI based module that is used to easily generate the "helpers" file for SLINGR endpoints.  

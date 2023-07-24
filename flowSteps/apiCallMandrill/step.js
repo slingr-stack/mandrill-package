@@ -46,8 +46,6 @@ step.apiCallMandrill = function (inputs) {
 
     inputsLogic.body.key = config.get("apiKey");
 
-	sys.logs.error(JSON.stringify(inputsLogic));
-
 	var options = {
         url: config.get("url") + parse(inputsLogic.url.urlValue, inputsLogic.url.paramsValue),
         params: inputsLogic.params,

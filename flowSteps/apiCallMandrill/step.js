@@ -4,23 +4,6 @@
 
 var httpService = dependencies.http;
 
-
-/**
- * This flow step will send generic request.
- *
- * @param {object} inputs
- * {text} method, This is used to config method.
- * {text} url, This is used to config external URL.
- * {Array[string]} pathVariables, This is used to config path variables.
- * {Array[string]} headers, This is used to config headers.
- * {Array[string]} params, This is used to config params.
- * {string} body, This is used to send body request.
- * {boolean} followRedirects, This is used to config follow redirects.
- * {boolean} download, This is used to config download.
- * {boolean} fullResponse, This is used to config full response.
- * {number} connectionTimeout, Read timeout interval, in milliseconds.
- * {number} readTimeout, Connect timeout interval, in milliseconds.
- */
 step.apiCallMandrill = function (inputs) {
 
     var inputsLogic = {

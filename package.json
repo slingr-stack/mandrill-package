@@ -42,7 +42,7 @@
             "label": "Url",
             "type": "label",
             "value": "https://mandrillapp.com/api/1.0",
-            "visibility":true
+            "visibility":false
         },
         {
             "name": "redirectEnabled",

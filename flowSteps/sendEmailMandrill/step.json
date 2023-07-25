@@ -10,7 +10,7 @@
       "type": "text",
       "required": true,
       "options": {
-        "allowContextSelector": "true"
+        "allowContextSelector": true
       }
     },
     {
@@ -20,7 +20,7 @@
       "required": true,
       "options": {
         "validation": "email",
-        "allowContextSelector": "true"
+        "allowContextSelector": true
       }
     },
     {
@@ -29,7 +29,7 @@
       "type": "text",
       "required": true,
       "options": {
-        "allowContextSelector": "true"
+        "allowContextSelector": true
       }
     },
     {
@@ -38,7 +38,7 @@
       "type": "text",
       "required": true,
       "options": {
-        "allowContextSelector": "true",
+        "allowContextSelector": true,
         "representation": "textArea"
       }
     }

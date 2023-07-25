@@ -9,7 +9,7 @@
       "name": "url",
       "description": "The method and path to which this endpoint is to send requests in a generic way.",
       "type": "urlParams",
-      "required": "true",
+      "required": true,
       "options": {
         "type": "dropDown",
         "possibleValues": [
@@ -301,7 +301,7 @@
       "type": "json",
       "description": "Content to be sent to the server.",
       "options": {
-        "allowContextSelector": "true"
+        "allowContextSelector": true
       }
     },
     {
@@ -311,7 +311,7 @@
       "description": "If true, allows adding configurations",
       "defaultValue": false,
       "options": {
-        "allowContextSelector": "false"
+        "allowContextSelector": false
       }
     },
     {
@@ -322,7 +322,7 @@
       "visibility": "config.overrideSettings",
       "defaultValue": false,
       "options": {
-        "allowContextSelector": "false"
+        "allowContextSelector": false
       }
     },
     {
@@ -333,7 +333,7 @@
       "visibility": "config.overrideSettings && config.events != \"fileDownloaded\"",
       "defaultValue": false,
       "options": {
-        "allowContextSelector": "false"
+        "allowContextSelector": false
       }
     },
     {
@@ -343,7 +343,7 @@
       "visibility": "(config.overrideSettings && config.download) || config.events === \"fileDownloaded\"",
       "type": "text",
       "options": {
-        "allowContextSelector": "true"
+        "allowContextSelector": true
       }
     },
     {
@@ -354,7 +354,7 @@
       "visibility": "config.overrideSettings",
       "defaultValue": false,
       "options": {
-        "allowContextSelector": "false"
+        "allowContextSelector": false
       }
     },
     {
@@ -371,7 +371,7 @@
         }
       },
       "options": {
-        "allowContextSelector": "false"
+        "allowContextSelector": false
       }
     },
     {
@@ -388,7 +388,7 @@
         }
       },
       "options": {
-        "allowContextSelector": "false"
+        "allowContextSelector": false
       }
     }
   ],

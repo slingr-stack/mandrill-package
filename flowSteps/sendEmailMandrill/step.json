@@ -8,7 +8,7 @@
       "label": "From",
       "name": "from",
       "type": "text",
-      "required": true,
+      "required": "true",
       "options": {
         "allowContextSelector": "true"
       }
@@ -17,7 +17,7 @@
       "label": "To",
       "name": "to",
       "type": "text",
-      "required": true,
+      "required": "true",
       "options": {
         "validation": "email",
         "allowContextSelector": "true"
@@ -27,7 +27,7 @@
       "label": "Subject",
       "name": "subject",
       "type": "text",
-      "required": true,
+      "required": "true",
       "options": {
         "allowContextSelector": "true"
       }
@@ -36,7 +36,7 @@
       "label": "Message",
       "name": "message",
       "type": "text",
-      "required": true,
+      "required": "true",
       "options": {
         "allowContextSelector": "true",
         "representation": "textArea"

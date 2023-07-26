@@ -15,7 +15,181 @@
     </tbody>
 </table>
 
-# Overview
+## Overview
+
+Mandrill is an email infrastructure service offered as an add-on for MailChimp that you can use to send personalized,
+one-to-one e-commerce emails, or automated transactional emails.
+
+Some features are:
+
+- Shortcuts for the REST API
+- Helpers to convert date times
+
+In most cases, you will be using the provided shortcuts to access the API. For example, you could use the REST API
+directly by doing an HTTP request like this:
+
+```js
+var res = pkg.mandrill.functions.users.info();
+```
+
+These shortcuts are based on the [Mandrill REST API](https://mandrillapp.com/api/docs/).
+
+## Quick start
+
+One common integration case with Mandrill is sending an email. For example:
+
+```js
+var res = pkg.mandrill.functions.messages.send.post({
+ "message": {
+   "html": "<p>Example HTML content</p>",
+   "text": "Example text content",
+   "subject": "example subject",
+   "from_name": "Example Name",
+   "to": [
+     {
+       "email": "recipient.email@example.com",
+       "name": "Recipient Name",
+       "type": "to"
+     }
+   ]
+ }
+});
+```
+
+## Configuration
+
+- Check the setting page to create a new API key: [Settings page](https://mandrillapp.com/settings/)
+- Configure the inbound domain in order to receive messages and notifications: [Inbound Email Processing Overview](https://mandrill.zendesk.com/hc/en-us/articles/205583197-Inbound-Email-Processing-Overview)
+- You will need to configure the Webhook URL as a route inside the registered inbound domain: [Inbound page](https://mandrillapp.com/inbound)
+- A new webhook (as well as the one that we use as inbound webhook) can be configured to receive different kinds of message and sync events: [Webhooks page](https://mandrillapp.com/settings/webhooks)
+
+
+### API key
+API to access to Mandrill service
+
+### Sender name
+Name of the sender of the emails
+
+### Sender account
+Account to use as sender of the emails (Do not include the @ and the domain).
+
+### Sender domain
+Domain to use as sender of the emails (Do not include the @ and the account name).
+
+### Redirect emails
+If it is enabled, all the emails will be sent to the redirect address instead to the real ones. This parameter is available only in dev environments.
+
+### Redirect to address
+Redirect address used as receiver of all the emails when the redirect option is enabled. This parameter is available only in dev environments.
+
+## Events
+
+### Webhook
+
+Mandrill's webhooks allow your application to receive information about email events as they occur.
+
+### Received email
+Event thrown when an email is received by the Mandrill service
+
+### Received response to a previously sent email
+Events thrown when an email is received by the Mandrill service as response to a previously sent email through the messages.send or messages.sendTemplate functions.
+
+### Email events
+Event thrown when something happens with a message on Mandrill. The event type can be one o the following ones: send, deferral, hard_bounce, soft_bounce, open, click, spam, unsub, reject.
+
+```js
+var res = pkg.mandrill.functions.messages.send.post({
+ "message": {
+   "html": "<p>Example HTML content</p>",
+   "text": "Example text content",
+   "subject": "example subject",
+   "from_name": "Example Name",
+   "to": [
+     {
+       "email": "recipient.email@example.com",
+       "name": "Recipient Name",
+       "type": "to"
+     }
+   ]
+ }
+}, {
+   "name": 'Object to return'
+ }, {
+   "responseArrived": function(res, resData){
+     //... code here
+   },
+   "emailArrived": function(res, resData){
+     //... code here
+   },
+   "emailEvent": function(res, resData){
+     //... code here
+   },
+   "syncEvent": function(res, resData){
+     //... code here
+   }
+ });
+```
+
+### Send email using SLINGR files
+
+When send and email, it is possible to send the ID of a file in the SLINGR app and the endpoint will automatically
+read and attach it into Mandrill email:
+
+```js
+var res = pkg.mandrill.functions.messages.send.post({
+ "message": {
+   "html": "<p>Example HTML content</p>",
+   "text": "Example text content",
+   "subject": "example subject",
+   "from_name": "Example Name",
+   "attachments": [
+      {
+        "file_id": record.field('file').id()
+      },
+      {
+        "type": "text/plain",
+        "name": "myfile.txt",
+        "content": "ZXhhbXBsZSBmaWxl"
+      }
+    ],
+    "images": [
+          {
+            "file_id": record.field('image').id()
+          },
+          {
+            "type": "image/png",
+            "name": "IMAGECID",
+            "content": "ZXhhbXBsZSBmaWxl"
+          }
+        ],
+   "to": [
+     {
+       "email": "recipient.email@example.com",
+       "name": "Recipient Name",
+       "type": "to"
+     }
+   ]
+ }
+}, {
+   "name": 'Object to return'
+ }, {
+   "responseArrived": function(res, resData){
+     //... code here
+   },
+   "emailArrived": function(res, resData){
+     //... code here
+   },
+   "emailEvent": function(res, resData){
+     //... code here
+   },
+   "syncEvent": function(res, resData){
+     //... code here
+   }
+ });
+```
+
+Where `file_id` is the ID of a file in the SLINGR app and you should send it in attachments files.
+
 
 # Javascript API
 

@@ -2,7 +2,7 @@
  Listeners
  ****************************************************/
 
-listeners.defaultWebhook = {
+listeners.defaultWebhookMandrill = {
     label: 'Catch HTTP mandrill events',
     type: 'service',
     options: {

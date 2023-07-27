@@ -19,8 +19,7 @@ function handleRequestWithRetry(requestFn, options, callbackData, callbacks) {
     try {
         return requestFn(options, callbackData, callbacks);
     } catch (error) {
-        sys.logs.error(JSON.stringify(error));
-        sys.logs.info("[Mandrill] Handling request...");
+        sys.logs.error("[Mandrill] Handling request "+ JSON.stringify(error));
     }
 }
 

@@ -9,7 +9,7 @@
     <tbody>
     <tr>
         <td>Mandrill package</td>
-        <td>July 24, 2023</td>
+        <td>July 27, 2023</td>
         <td>Detailed description of the API of the Mandrill package.</td>
     </tr>
     </tbody>
@@ -132,7 +132,7 @@ var res = pkg.mandrill.functions.messages.send.post({
 
 ### Send email using SLINGR files
 
-When send and email, it is possible to send the ID of a file in the SLINGR app and the endpoint will automatically
+When send and email, it is possible to send the ID of a file in the SLINGR app and the package will automatically
 read and attach it into Mandrill email:
 
 ```js
@@ -197,21 +197,21 @@ The Javascript API of the mandrill package has three pieces:
 
 - **HTTP requests**: These allow to make regular HTTP requests.
 - **Shortcuts**: These are helpers to make HTTP request to the API in a more convenient way.
-- **Additional Helpers**: These helpers provide additional features that facilitate or improves the endpoint usage in SLINGR.
+- **Additional Helpers**: These helpers provide additional features that facilitate or improve the package usage in SLINGR.
 
 ## HTTP requests
-You can make `POST` requests to the [mandrill API](API_URL_HERE) like this:
+You can make `POST` requests to the [mandrill API](https://mailchimp.com/developer/transactional/api/) like this:
 ```javascript
 var response = pkg.mandrill.functions.post('/whitelists/list', body)
 var response = pkg.mandrill.functions.post('/whitelists/list')
 ```
 
-Please take a look at the documentation of the [HTTP endpoint](https://github.com/slingr-stack/http-endpoint#javascript-api)
+Please take a look at the documentation of the [HTTP service](https://github.com/slingr-stack/http-service)
 for more information about generic requests.
 
 ## Shortcuts
 
-Instead of having to use the generic HTTP methods, you can (and should) make use of the helpers provided in the endpoint:
+Instead of having to use the generic HTTP methods, you can (and should) make use of the helpers provided in the package:
 <details>
     <summary>Click here to see all the helpers</summary>
 
@@ -756,7 +756,7 @@ pkg.mandrill.functions.metadata.delete.post(body)
 
 ## Flow Step
 
-As an alternative option to using scripts, you can make use of Flows and Flow Steps specifically created for the endpoint:
+As an alternative option to using scripts, you can make use of Flows and Flow Steps specifically created for the package:
 <details>
     <summary>Click here to see the Flow Steps</summary>
 
@@ -766,7 +766,7 @@ As an alternative option to using scripts, you can make use of Flows and Flow St
 
 ### Generic Flow Step
 
-Generic flow step for full use of the entire endpoint and its services.
+Generic flow step for full use of the entire package and its services.
 
 <h3>Inputs</h3>
 

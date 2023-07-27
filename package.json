@@ -128,11 +128,6 @@
             "type": "flowStep",
             "namespace": "steps",
             "path": "/flowSteps/apiCallMandrill"
-        },
-        {
-            "type": "flowStep",
-            "namespace": "steps",
-            "path": "/flowSteps/sendEmailMandrill"
         }
     ]
 }

@@ -40,3 +40,11 @@ step.sendEmailMandrill = function (inputs) {
 
 };
 
+/*
+,
+        {
+            "type": "flowStep",
+            "namespace": "steps",
+            "path": "/flowSteps/sendEmailMandrill"
+        }
+ */

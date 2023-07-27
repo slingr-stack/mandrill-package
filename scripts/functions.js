@@ -1025,8 +1025,8 @@ var parse = function (str) {
  ****************************************************/
 
 
-var MANDRILL_API_BASE_URL = config.get("url"); // TODO: Set the base url
-var API_URL = MANDRILL_API_BASE_URL+""; // TODO: Set the base url for the api
+var MANDRILL_API_BASE_URL = config.get("url");
+var API_URL = MANDRILL_API_BASE_URL+"";
 
 /****************************************************
  Configurator

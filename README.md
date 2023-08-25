@@ -9,13 +9,13 @@
     <tbody>
     <tr>
         <td>Mandrill package</td>
-        <td>July 27, 2023</td>
+        <td>August 25, 2023</td>
         <td>Detailed description of the API of the Mandrill package.</td>
     </tr>
     </tbody>
 </table>
 
-## Overview
+# Overview
 
 Mandrill is an email infrastructure service offered as an add-on for MailChimp that you can use to send personalized,
 one-to-one e-commerce emails, or automated transactional emails.
@@ -195,15 +195,15 @@ Where `file_id` is the ID of a file in the SLINGR app and you should send it in 
 
 The Javascript API of the mandrill package has three pieces:
 
-- **HTTP requests**: These allow to make regular HTTP requests.
+- **HTTP requests**: These allow making regular HTTP requests.
 - **Shortcuts**: These are helpers to make HTTP request to the API in a more convenient way.
-- **Additional Helpers**: These helpers provide additional features that facilitate or improve the package usage in SLINGR.
+- **Additional Helpers**: These helpers provide additional features that facilitate or improves the package usage in SLINGR.
 
 ## HTTP requests
 You can make `POST` requests to the [mandrill API](https://mailchimp.com/developer/transactional/api/) like this:
 ```javascript
-var response = pkg.mandrill.functions.post('/whitelists/list', body)
-var response = pkg.mandrill.functions.post('/whitelists/list')
+var response = pkg.mandrill.functions.post('/ips/delete-pool', body)
+var response = pkg.mandrill.functions.post('/ips/delete-pool')
 ```
 
 Please take a look at the documentation of the [HTTP service](https://github.com/slingr-stack/http-service)
@@ -217,406 +217,10 @@ Instead of having to use the generic HTTP methods, you can (and should) make use
 
 <br>
 
-* API URL: '/users/info'
+* API URL: '/exports/activity'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.users.info.post(body)
-```
----
-* API URL: '/users/ping'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.users.ping.post(body)
-```
----
-* API URL: '/users/ping2'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.users.ping2.post(body)
-```
----
-* API URL: '/users/senders'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.users.senders.post(body)
-```
----
-* API URL: '/messages/send'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.send.post(body)
-```
----
-* API URL: '/messages/send-template'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.sendTemplate.post(body)
-```
----
-* API URL: '/messages/search'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.search.post(body)
-```
----
-* API URL: '/messages/search-time-series'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.searchTimeSeries.post(body)
-```
----
-* API URL: '/messages/info'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.info.post(body)
-```
----
-* API URL: '/messages/content'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.content.post(body)
-```
----
-* API URL: '/messages/parse'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.parse.post(body)
-```
----
-* API URL: '/messages/send-raw'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.sendRaw.post(body)
-```
----
-* API URL: '/messages/list-scheduled'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.listScheduled.post(body)
-```
----
-* API URL: '/messages/cancel-scheduled'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.cancelScheduled.post(body)
-```
----
-* API URL: '/messages/reschedule'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.messages.reschedule.post(body)
-```
----
-* API URL: '/tags/list'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.tags.list.post(body)
-```
----
-* API URL: '/tags/delete'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.tags.delete.post(body)
-```
----
-* API URL: '/tags/info'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.tags.info.post(body)
-```
----
-* API URL: '/tags/time-series'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.tags.timeSeries.post(body)
-```
----
-* API URL: '/tags/all-time-series'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.tags.allTimeSeries.post(body)
-```
----
-* API URL: '/rejects/add'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.rejects.add.post(body)
-```
----
-* API URL: '/rejects/list'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.rejects.list.post(body)
-```
----
-* API URL: '/rejects/delete'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.rejects.delete.post(body)
-```
----
-* API URL: '/whitelists/add'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.whitelists.add.post(body)
-```
----
-* API URL: '/whitelists/list'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.whitelists.list.post(body)
-```
----
-* API URL: '/whitelists/delete'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.whitelists.delete.post(body)
-```
----
-* API URL: '/senders/list'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.senders.list.post(body)
-```
----
-* API URL: '/senders/domains'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.senders.domains.post(body)
-```
----
-* API URL: '/senders/add-domain'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.senders.addDomain.post(body)
-```
----
-* API URL: '/senders/check-domain'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.senders.checkDomain.post(body)
-```
----
-* API URL: '/senders/verify-domain'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.senders.verifyDomain.post(body)
-```
----
-* API URL: '/senders/info'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.senders.info.post(body)
-```
----
-* API URL: '/senders/time-series'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.senders.timeSeries.post(body)
-```
----
-* API URL: '/urls/list'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.urls.list.post(body)
-```
----
-* API URL: '/urls/search'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.urls.search.post(body)
-```
----
-* API URL: '/urls/time-series'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.urls.timeSeries.post(body)
-```
----
-* API URL: '/urls/tracking-domains'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.urls.trackingDomains.post(body)
-```
----
-* API URL: '/urls/check-tracking-domain'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.urls.checkTrackingDomain.post(body)
-```
----
-* API URL: '/templates/add'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.templates.add.post(body)
-```
----
-* API URL: '/templates/info'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.templates.info.post(body)
-```
----
-* API URL: '/templates/update'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.templates.update.post(body)
-```
----
-* API URL: '/templates/publish'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.templates.publish.post(body)
-```
----
-* API URL: '/templates/delete'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.templates.delete.post(body)
-```
----
-* API URL: '/templates/list'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.templates.list.post(body)
-```
----
-* API URL: '/templates/time-series'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.templates.timeSeries.post(body)
-```
----
-* API URL: '/templates/render'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.templates.render.post(body)
-```
----
-* API URL: '/webhooks/list'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.webhooks.list.post(body)
-```
----
-* API URL: '/webhooks/add'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.webhooks.add.post(body)
-```
----
-* API URL: '/webhooks/info'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.webhooks.info.post(body)
-```
----
-* API URL: '/webhooks/update'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.webhooks.update.post(body)
-```
----
-* API URL: '/webhooks/delete'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.webhooks.delete.post(body)
-```
----
-* API URL: '/subaccounts/list'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.subaccounts.list.post(body)
-```
----
-* API URL: '/subaccounts/add'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.subaccounts.add.post(body)
-```
----
-* API URL: '/subaccounts/info'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.subaccounts.info.post(body)
-```
----
-* API URL: '/subaccounts/update'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.subaccounts.update.post(body)
-```
----
-* API URL: '/subaccounts/delete'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.subaccounts.delete.post(body)
-```
----
-* API URL: '/subaccounts/pause'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.subaccounts.pause.post(body)
-```
----
-* API URL: '/subaccounts/resume'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.subaccounts.resume.post(body)
-```
----
-* API URL: '/inbound/domains'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.domains.post(body)
-```
----
-* API URL: '/inbound/add-domain'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.addDomain.post(body)
-```
----
-* API URL: '/inbound/check-domain'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.checkDomain.post(body)
-```
----
-* API URL: '/inbound/delete-domain'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.deleteDomain.post(body)
-```
----
-* API URL: '/inbound/routes'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.routes.post(body)
-```
----
-* API URL: '/inbound/add-route'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.addRoute.post(body)
-```
----
-* API URL: '/inbound/update-route'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.updateRoute.post(body)
-```
----
-* API URL: '/inbound/delete-route'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.deleteRoute.post(body)
-```
----
-* API URL: '/inbound/send-raw'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.inbound.sendRaw.post(body)
+pkg.mandrill.functions.exports.activity.post(body)
 ```
 ---
 * API URL: '/exports/info'
@@ -643,34 +247,58 @@ pkg.mandrill.functions.exports.rejects.post(body)
 pkg.mandrill.functions.exports.whitelist.post(body)
 ```
 ---
-* API URL: '/exports/activity'
+* API URL: '/inbound/add-domain'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.exports.activity.post(body)
+pkg.mandrill.functions.inbound.addDomain.post(body)
 ```
 ---
-* API URL: '/ips/list'
+* API URL: '/inbound/add-route'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.ips.list.post(body)
+pkg.mandrill.functions.inbound.addRoute.post(body)
 ```
 ---
-* API URL: '/ips/info'
+* API URL: '/inbound/check-domain'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.ips.info.post(body)
+pkg.mandrill.functions.inbound.checkDomain.post(body)
 ```
 ---
-* API URL: '/ips/provision'
+* API URL: '/inbound/delete-domain'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.ips.provision.post(body)
+pkg.mandrill.functions.inbound.deleteDomain.post(body)
 ```
 ---
-* API URL: '/ips/start-warmup'
+* API URL: '/inbound/delete-route'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.ips.startWarmup.post(body)
+pkg.mandrill.functions.inbound.deleteRoute.post(body)
+```
+---
+* API URL: '/inbound/domains'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.inbound.domains.post(body)
+```
+---
+* API URL: '/inbound/routes'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.inbound.routes.post(body)
+```
+---
+* API URL: '/inbound/send-raw'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.inbound.sendRaw.post(body)
+```
+---
+* API URL: '/inbound/update-route'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.inbound.updateRoute.post(body)
 ```
 ---
 * API URL: '/ips/cancel-warmup'
@@ -679,16 +307,40 @@ pkg.mandrill.functions.ips.startWarmup.post(body)
 pkg.mandrill.functions.ips.cancelWarmup.post(body)
 ```
 ---
-* API URL: '/ips/set-pool'
+* API URL: '/ips/check-custom-dns'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.ips.setPool.post(body)
+pkg.mandrill.functions.ips.checkCustomDns.post(body)
+```
+---
+* API URL: '/ips/create-pool'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.ips.createPool.post(body)
 ```
 ---
 * API URL: '/ips/delete'
 * HTTP Method: 'POST'
 ```javascript
 pkg.mandrill.functions.ips.delete.post(body)
+```
+---
+* API URL: '/ips/delete-pool'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.ips.deletePool.post(body)
+```
+---
+* API URL: '/ips/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.ips.info.post(body)
+```
+---
+* API URL: '/ips/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.ips.list.post(body)
 ```
 ---
 * API URL: '/ips/list-pools'
@@ -703,22 +355,10 @@ pkg.mandrill.functions.ips.listPools.post(body)
 pkg.mandrill.functions.ips.poolInfo.post(body)
 ```
 ---
-* API URL: '/ips/create-pool'
+* API URL: '/ips/provision'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.ips.createPool.post(body)
-```
----
-* API URL: '/ips/delete-pool'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.ips.deletePool.post(body)
-```
----
-* API URL: '/ips/check-custom-dns'
-* HTTP Method: 'POST'
-```javascript
-pkg.mandrill.functions.ips.checkCustomDns.post(body)
+pkg.mandrill.functions.ips.provision.post(body)
 ```
 ---
 * API URL: '/ips/set-custom-dns'
@@ -727,10 +367,82 @@ pkg.mandrill.functions.ips.checkCustomDns.post(body)
 pkg.mandrill.functions.ips.setCustomDns.post(body)
 ```
 ---
-* API URL: '/metadata/list'
+* API URL: '/ips/set-pool'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.metadata.list.post(body)
+pkg.mandrill.functions.ips.setPool.post(body)
+```
+---
+* API URL: '/ips/start-warmup'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.ips.startWarmup.post(body)
+```
+---
+* API URL: '/messages/cancel-scheduled'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.cancelScheduled.post(body)
+```
+---
+* API URL: '/messages/content'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.content.post(body)
+```
+---
+* API URL: '/messages/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.info.post(body)
+```
+---
+* API URL: '/messages/list-scheduled'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.listScheduled.post(body)
+```
+---
+* API URL: '/messages/parse'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.parse.post(body)
+```
+---
+* API URL: '/messages/reschedule'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.reschedule.post(body)
+```
+---
+* API URL: '/messages/search'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.search.post(body)
+```
+---
+* API URL: '/messages/search-time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.searchTimeSeries.post(body)
+```
+---
+* API URL: '/messages/send'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.send.post(body)
+```
+---
+* API URL: '/messages/send-raw'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.sendRaw.post(body)
+```
+---
+* API URL: '/messages/send-template'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.messages.sendTemplate.post(body)
 ```
 ---
 * API URL: '/metadata/add'
@@ -739,16 +451,304 @@ pkg.mandrill.functions.metadata.list.post(body)
 pkg.mandrill.functions.metadata.add.post(body)
 ```
 ---
+* API URL: '/metadata/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.metadata.delete.post(body)
+```
+---
+* API URL: '/metadata/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.metadata.list.post(body)
+```
+---
 * API URL: '/metadata/update'
 * HTTP Method: 'POST'
 ```javascript
 pkg.mandrill.functions.metadata.update.post(body)
 ```
 ---
-* API URL: '/metadata/delete'
+* API URL: '/rejects/add'
 * HTTP Method: 'POST'
 ```javascript
-pkg.mandrill.functions.metadata.delete.post(body)
+pkg.mandrill.functions.rejects.add.post(body)
+```
+---
+* API URL: '/rejects/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.rejects.delete.post(body)
+```
+---
+* API URL: '/rejects/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.rejects.list.post(body)
+```
+---
+* API URL: '/senders/add-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.senders.addDomain.post(body)
+```
+---
+* API URL: '/senders/check-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.senders.checkDomain.post(body)
+```
+---
+* API URL: '/senders/domains'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.senders.domains.post(body)
+```
+---
+* API URL: '/senders/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.senders.info.post(body)
+```
+---
+* API URL: '/senders/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.senders.list.post(body)
+```
+---
+* API URL: '/senders/time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.senders.timeSeries.post(body)
+```
+---
+* API URL: '/senders/verify-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.senders.verifyDomain.post(body)
+```
+---
+* API URL: '/subaccounts/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.subaccounts.add.post(body)
+```
+---
+* API URL: '/subaccounts/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.subaccounts.delete.post(body)
+```
+---
+* API URL: '/subaccounts/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.subaccounts.info.post(body)
+```
+---
+* API URL: '/subaccounts/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.subaccounts.list.post(body)
+```
+---
+* API URL: '/subaccounts/pause'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.subaccounts.pause.post(body)
+```
+---
+* API URL: '/subaccounts/resume'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.subaccounts.resume.post(body)
+```
+---
+* API URL: '/subaccounts/update'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.subaccounts.update.post(body)
+```
+---
+* API URL: '/tags/all-time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.tags.allTimeSeries.post(body)
+```
+---
+* API URL: '/tags/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.tags.delete.post(body)
+```
+---
+* API URL: '/tags/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.tags.info.post(body)
+```
+---
+* API URL: '/tags/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.tags.list.post(body)
+```
+---
+* API URL: '/tags/time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.tags.timeSeries.post(body)
+```
+---
+* API URL: '/templates/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.templates.add.post(body)
+```
+---
+* API URL: '/templates/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.templates.delete.post(body)
+```
+---
+* API URL: '/templates/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.templates.info.post(body)
+```
+---
+* API URL: '/templates/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.templates.list.post(body)
+```
+---
+* API URL: '/templates/publish'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.templates.publish.post(body)
+```
+---
+* API URL: '/templates/render'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.templates.render.post(body)
+```
+---
+* API URL: '/templates/time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.templates.timeSeries.post(body)
+```
+---
+* API URL: '/templates/update'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.templates.update.post(body)
+```
+---
+* API URL: '/urls/check-tracking-domain'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.urls.checkTrackingDomain.post(body)
+```
+---
+* API URL: '/urls/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.urls.list.post(body)
+```
+---
+* API URL: '/urls/search'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.urls.search.post(body)
+```
+---
+* API URL: '/urls/time-series'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.urls.timeSeries.post(body)
+```
+---
+* API URL: '/urls/tracking-domains'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.urls.trackingDomains.post(body)
+```
+---
+* API URL: '/users/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.users.info.post(body)
+```
+---
+* API URL: '/users/ping'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.users.ping.post(body)
+```
+---
+* API URL: '/users/ping2'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.users.ping2.post(body)
+```
+---
+* API URL: '/users/senders'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.users.senders.post(body)
+```
+---
+* API URL: '/webhooks/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.webhooks.add.post(body)
+```
+---
+* API URL: '/webhooks/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.webhooks.delete.post(body)
+```
+---
+* API URL: '/webhooks/info'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.webhooks.info.post(body)
+```
+---
+* API URL: '/webhooks/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.webhooks.list.post(body)
+```
+---
+* API URL: '/webhooks/update'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.webhooks.update.post(body)
+```
+---
+* API URL: '/whitelists/add'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.whitelists.add.post(body)
+```
+---
+* API URL: '/whitelists/delete'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.whitelists.delete.post(body)
+```
+---
+* API URL: '/whitelists/list'
+* HTTP Method: 'POST'
+```javascript
+pkg.mandrill.functions.whitelists.list.post(body)
 ```
 ---
 
@@ -882,7 +882,7 @@ Generic flow step for full use of the entire package and its services.
         <td>no</td>
         <td> 5000 </td>
         <td> overrideSettings </td>
-        <td>Connect timeout interval, in milliseconds (0 = infinity).</td>
+        <td>Connect a timeout interval, in milliseconds (0 = infinity).</td>
     </tr>
     <tr>
         <td>Read Timeout</td>
@@ -890,7 +890,7 @@ Generic flow step for full use of the entire package and its services.
         <td>no</td>
         <td> 60000 </td>
         <td> overrideSettings </td>
-        <td>Read timeout interval, in milliseconds (0 = infinity).</td>
+        <td>Read a timeout interval, in milliseconds (0 = infinity).</td>
     </tr>
     </tbody>
 </table>
@@ -919,7 +919,7 @@ Generic flow step for full use of the entire package and its services.
 
 </details>
 
-For more information about how shortcuts or flow steps works, and how they are generated, take a look at the [slingr-helpgen tool](https://github.com/slingr-stack/slingr-helpgen).
+For more information about how shortcuts or flow steps work, and how they are generated, take a look at the [slingr-helpgen tool](https://github.com/slingr-stack/slingr-helpgen).
 
 ## Additional Flow Step
 
@@ -947,12 +947,12 @@ Description of Custom Flow Steps
 ## Dependencies
 * HTTP Service (Latest Version)
 
-## About SLINGR
+# About SLINGR
 
 SLINGR is a low-code rapid application development platform that accelerates development, with robust architecture for integrations and executing custom workflows and automation.
 
 [More info about SLINGR](https://slingr.io)
 
-## License
+# License
 
 This package is licensed under the Apache License 2.0. See the `LICENSE` file for more details.

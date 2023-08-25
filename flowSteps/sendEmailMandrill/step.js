@@ -39,12 +39,3 @@ step.sendEmailMandrill = function (inputs) {
 	return httpService.post(options);
 
 };
-
-/*
-,
-        {
-            "type": "flowStep",
-            "namespace": "steps",
-            "path": "/flowSteps/sendEmailMandrill"
-        }
- */

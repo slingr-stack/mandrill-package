@@ -19,7 +19,7 @@ function handleRequestWithRetry(requestFn, options, callbackData, callbacks) {
     try {
         return requestFn(options, callbackData, callbacks);
     } catch (error) {
-        sys.logs.error("[Mandrill] Handling request "+ JSON.stringify(error));
+        sys.logs.info("[mandrill] Handling request "+JSON.stringify(error));
     }
 }
 
@@ -32,7 +32,6 @@ function createWrapperFunction(requestFn) {
 for (var key in httpDependency) {
     if (typeof httpDependency[key] === 'function') httpService[key] = createWrapperFunction(httpDependency[key]);
 }
-
 
 /****************************************************
  Helpers
@@ -963,6 +962,12 @@ exports.utils.fromMillisToDate = function(params) {
     return null;
 };
 
+exports.utils.getConfiguration = function (property) {
+    sys.logs.debug('[mandrill] Get property: '+property);
+    return config.get(property);
+};
+
+
 /****************************************************
  Private helpers
  ****************************************************/
@@ -979,7 +984,7 @@ var checkHttpOptions = function (url, options) {
             options = url || {};
         } else {
             if (!!options.path || !!options.params || !!options.body) {
-                // options contains the http package format
+                // options contain the http package format
                 options.path = url;
             } else {
                 // create html package
@@ -1004,7 +1009,7 @@ var parse = function (str) {
         if (arguments.length > 1) {
             var args = arguments[1], i = 0;
             return str.replace(/(:(?:\w|-)+)/g, () => {
-                if (typeof (args[i]) != 'string') throw new Error('Invalid type of argument: [' + args[i] + '] for url [' + str + '].');
+                if (typeof (args[i]) != 'string' && typeof (args[i]) != 'number') throw new Error('Invalid type of argument: [' + args[i] + '] for url [' + str + '].');
                 return args[i++];
             });
         } else {
@@ -1020,21 +1025,13 @@ var parse = function (str) {
 }
 
 /****************************************************
- Constants
- ****************************************************/
-
-
-var MANDRILL_API_BASE_URL = config.get("url");
-var API_URL = MANDRILL_API_BASE_URL+"";
-
-/****************************************************
  Configurator
  ****************************************************/
 
 var Mandrill = function (options) {
     options = options || {};
-    options = setApiUri(options);
-    options = setRequestHeaders(options);
+    options= setApiUri(options);
+    options= setRequestHeaders(options);
     options = setRequestBody(options);
     return options;
 }
@@ -1044,6 +1041,7 @@ var Mandrill = function (options) {
  ****************************************************/
 
 function setApiUri(options) {
+    var API_URL = config.get("MANDRILL_API_BASE_URL");
     var url = options.path || "";
     options.url = API_URL + url;
     sys.logs.debug('[mandrill] Set url: ' + options.path + "->" + options.url);
@@ -1058,6 +1056,13 @@ function setRequestHeaders(options) {
     return options;
 }
 
+function setRequestBody(options) {
+    var body = options.body || {};
+    body.key = body.key || config.get("apiKey");
+    options.body = body;
+    return options;
+}
+
 function mergeJSON (json1, json2) {
     const result = {};
     var key;
@@ -1068,11 +1073,4 @@ function mergeJSON (json1, json2) {
         if(json2.hasOwnProperty(key)) result[key] = json2[key];
     }
     return result;
-}
-
-function setRequestBody(options) {
-    var body = options.body || {};
-    body.key = body.key || config.get("apiKey");
-    options.body = body;
-    return options;
 }

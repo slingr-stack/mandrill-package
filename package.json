@@ -116,7 +116,7 @@
     "metadata": [
         {
             "type": "script",
-            "namespace": "api",
+            "namespace": "functions",
             "path": "/scripts/functions.js"
         },
         {
@@ -126,12 +126,12 @@
         },
         {
             "type": "flowStep",
-            "namespace": "steps",
+            "namespace": "apiCallMandrill",
             "path": "/flowSteps/apiCallMandrill"
         },
         {
             "type": "flowStep",
-            "namespace": "steps",
+            "namespace": "sendEmailMandrill",
             "path": "/flowSteps/sendEmailMandrill"
         }
     ]

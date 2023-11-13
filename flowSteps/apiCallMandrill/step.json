@@ -1,403 +1,173 @@
 {
-  "label": "API call to mandrill",
-  "name": "apiCallMandrill",
-  "category": "integrations",
-  "description": "This flow step will send generic request to mandrill",
-  "inputs": [
-    {
-      "label": "Url",
-      "name": "url",
-      "description": "The method and path to which this endpoint is to send requests in a generic way.",
-      "type": "urlParams",
-      "required": "true",
-      "options": {
-        "type": "dropDown",
-        "possibleValues": [
-            {
-              "label": "POST /users/info"
-            },
-            {
-              "label": "POST /users/ping"
-            },
-            {
-              "label": "POST /users/ping2"
-            },
-            {
-              "label": "POST /users/senders"
-            },
-            {
-              "label": "POST /messages/send"
-            },
-            {
-              "label": "POST /messages/send-template"
-            },
-            {
-              "label": "POST /messages/search"
-            },
-            {
-              "label": "POST /messages/search-time-series"
-            },
-            {
-              "label": "POST /messages/info"
-            },
-            {
-              "label": "POST /messages/content"
-            },
-            {
-              "label": "POST /messages/parse"
-            },
-            {
-              "label": "POST /messages/send-raw"
-            },
-            {
-              "label": "POST /messages/list-scheduled"
-            },
-            {
-              "label": "POST /messages/cancel-scheduled"
-            },
-            {
-              "label": "POST /messages/reschedule"
-            },
-            {
-              "label": "POST /tags/list"
-            },
-            {
-              "label": "POST /tags/delete"
-            },
-            {
-              "label": "POST /tags/info"
-            },
-            {
-              "label": "POST /tags/time-series"
-            },
-            {
-              "label": "POST /tags/all-time-series"
-            },
-            {
-              "label": "POST /rejects/add"
-            },
-            {
-              "label": "POST /rejects/list"
-            },
-            {
-              "label": "POST /rejects/delete"
-            },
-            {
-              "label": "POST /whitelists/add"
-            },
-            {
-              "label": "POST /whitelists/list"
-            },
-            {
-              "label": "POST /whitelists/delete"
-            },
-            {
-              "label": "POST /senders/list"
-            },
-            {
-              "label": "POST /senders/domains"
-            },
-            {
-              "label": "POST /senders/add-domain"
-            },
-            {
-              "label": "POST /senders/check-domain"
-            },
-            {
-              "label": "POST /senders/verify-domain"
-            },
-            {
-              "label": "POST /senders/info"
-            },
-            {
-              "label": "POST /senders/time-series"
-            },
-            {
-              "label": "POST /urls/list"
-            },
-            {
-              "label": "POST /urls/search"
-            },
-            {
-              "label": "POST /urls/time-series"
-            },
-            {
-              "label": "POST /urls/tracking-domains"
-            },
-            {
-              "label": "POST /urls/check-tracking-domain"
-            },
-            {
-              "label": "POST /templates/add"
-            },
-            {
-              "label": "POST /templates/info"
-            },
-            {
-              "label": "POST /templates/update"
-            },
-            {
-              "label": "POST /templates/publish"
-            },
-            {
-              "label": "POST /templates/delete"
-            },
-            {
-              "label": "POST /templates/list"
-            },
-            {
-              "label": "POST /templates/time-series"
-            },
-            {
-              "label": "POST /templates/render"
-            },
-            {
-              "label": "POST /webhooks/list"
-            },
-            {
-              "label": "POST /webhooks/add"
-            },
-            {
-              "label": "POST /webhooks/info"
-            },
-            {
-              "label": "POST /webhooks/update"
-            },
-            {
-              "label": "POST /webhooks/delete"
-            },
-            {
-              "label": "POST /subaccounts/list"
-            },
-            {
-              "label": "POST /subaccounts/add"
-            },
-            {
-              "label": "POST /subaccounts/info"
-            },
-            {
-              "label": "POST /subaccounts/update"
-            },
-            {
-              "label": "POST /subaccounts/delete"
-            },
-            {
-              "label": "POST /subaccounts/pause"
-            },
-            {
-              "label": "POST /subaccounts/resume"
-            },
-            {
-              "label": "POST /inbound/domains"
-            },
-            {
-              "label": "POST /inbound/add-domain"
-            },
-            {
-              "label": "POST /inbound/check-domain"
-            },
-            {
-              "label": "POST /inbound/delete-domain"
-            },
-            {
-              "label": "POST /inbound/routes"
-            },
-            {
-              "label": "POST /inbound/add-route"
-            },
-            {
-              "label": "POST /inbound/update-route"
-            },
-            {
-              "label": "POST /inbound/delete-route"
-            },
-            {
-              "label": "POST /inbound/send-raw"
-            },
-            {
-              "label": "POST /exports/info"
-            },
-            {
-              "label": "POST /exports/list"
-            },
-            {
-              "label": "POST /exports/rejects"
-            },
-            {
-              "label": "POST /exports/whitelist"
-            },
-            {
-              "label": "POST /exports/activity"
-            },
-            {
-              "label": "POST /ips/list"
-            },
-            {
-              "label": "POST /ips/info"
-            },
-            {
-              "label": "POST /ips/provision"
-            },
-            {
-              "label": "POST /ips/start-warmup"
-            },
-            {
-              "label": "POST /ips/cancel-warmup"
-            },
-            {
-              "label": "POST /ips/set-pool"
-            },
-            {
-              "label": "POST /ips/delete"
-            },
-            {
-              "label": "POST /ips/list-pools"
-            },
-            {
-              "label": "POST /ips/pool-info"
-            },
-            {
-              "label": "POST /ips/create-pool"
-            },
-            {
-              "label": "POST /ips/delete-pool"
-            },
-            {
-              "label": "POST /ips/check-custom-dns"
-            },
-            {
-              "label": "POST /ips/set-custom-dns"
-            },
-            {
-              "label": "POST /metadata/list"
-            },
-            {
-              "label": "POST /metadata/add"
-            },
-            {
-              "label": "POST /metadata/update"
-            },
-            {
-              "label": "POST /metadata/delete"
-            }
-        ]
-      }
-    },
-    {
-      "label": "Headers",
-      "name": "headers",
-      "description": "Let the client and the server pass additional information with the HTTP request in a key value format. (e.g. key=ABC123)",
-      "type": "keyValue"
-    },
-    {
-      "label": "Query Params",
-      "name": "params",
-      "description": "Parameters attached to the end of a url in a key value format. (e.g. key=ABC123)",
-      "type": "keyValue"
-    },
-    {
-      "label": "Body",
-      "name": "body",
-      "type": "json",
-      "description": "Content to be sent to the server.",
-      "options": {
-        "allowContextSelector": "true"
-      }
-    },
-    {
-      "label": "Override Settings",
-      "name": "overrideSettings",
-      "type": "boolean",
-      "description": "If true, allows adding configurations",
-      "defaultValue": false,
-      "options": {
-        "allowContextSelector": "false"
-      }
-    },
-    {
-      "label": "Follow Redirects",
-      "name": "followRedirects",
-      "type": "boolean",
-      "description": "Follow the redirects when a HTTP request is executed",
-      "visibility": "config.overrideSettings",
-      "defaultValue": false,
-      "options": {
-        "allowContextSelector": "false"
-      }
-    },
-    {
-      "label": "Download",
-      "name": "download",
-      "type": "boolean",
-      "description": "Indicates that the resource has to be downloaded into a file instead of returning it in the response.",
-      "visibility": "config.overrideSettings && config.events != \"fileDownloaded\"",
-      "defaultValue": false,
-      "options": {
-        "allowContextSelector": "false"
-      }
-    },
-    {
-      "label": "File Name",
-      "name": "fileName",
-      "description": "If provided, the file will be stored with this name. If empty the file name will be calculated from the URL.",
-      "visibility": "(config.overrideSettings && config.download) || config.events === \"fileDownloaded\"",
-      "type": "text",
-      "options": {
-        "allowContextSelector": "true"
-      }
-    },
-    {
-      "label": "Full Response",
-      "name": "fullResponse",
-      "type": "boolean",
-      "description": "Include extended information about response",
-      "visibility": "config.overrideSettings",
-      "defaultValue": false,
-      "options": {
-        "allowContextSelector": "false"
-      }
-    },
-    {
-      "label": "Connection timeout",
-      "name": "connectionTimeout",
-      "description": "Connect timeout interval, in milliseconds (0 = infinity). Default value: 5000 ms (5 sec)",
-      "visibility": "config.overrideSettings",
-      "type": "text",
-      "defaultValue": "5000",
-      "typeOptions": {
-        "validation": {
-          "function": "!config.connectionTimeout || utils.isPlaceholder(config.connectionTimeout) || utils.getInteger(config.connectionTimeout) >= 0",
-          "message": "The time must be a valid placeholder or a positive integer greater than or equal to 0. "
-        }
-      },
-      "options": {
-        "allowContextSelector": "false"
-      }
-    },
-    {
-      "label": "Read timeout",
-      "name": "readTimeout",
-      "description": "Read timeout interval, in milliseconds (0 = infinity). Default value: 60000 ms (60 sec)",
-      "visibility": "config.overrideSettings",
-      "type": "text",
-      "defaultValue": "60000",
-      "typeOptions": {
-        "validation": {
-          "function": "!config.readTimeout || utils.isPlaceholder(config.readTimeout) || utils.getInteger(config.readTimeout) >= 0",
-          "message": "The time must be a valid placeholder or a positive integer greater than or equal to 0. "
-        }
-      },
-      "options": {
-        "allowContextSelector": "false"
-      }
-    }
-  ],
-  "outputs": [
-    {
-      "label": "Response",
-      "name": "response",
-      "type": "object",
-      "description": "The response to external URL"
-    }
-  ]
+	"label": "API call to mandrill",
+	"name": "apiCallMandrill",
+	"category": "integrations",
+	"description": "This flow step will send generic request to mandrill",
+	"inputs": [
+		{
+			"label": "Method",
+			"name": "method",
+			"description": "The method to which this service will send the request.",
+			"type": "dropDown",
+			"multiplicity": "one",
+			"required": "true",
+			"defaultValue": "get",
+			"options": {
+				"possibleValues": [
+					{
+						"label": "GET",
+						"name": "get"
+					},
+					{
+						"label": "POST",
+						"name": "post"
+					},
+					{
+						"label": "PUT",
+						"name": "put"
+					},
+					{
+						"label": "DELETE",
+						"name": "delete"
+					},
+					{
+						"label": "PATCH",
+						"name": "patch"
+					},
+					{
+						"label": "OPTIONS",
+						"name": "options"
+					},
+					{
+						"label": "HEAD",
+						"name": "head"
+					}
+				],
+				"allowContextSelector": "false"
+			}
+		},
+		{
+			"label": "Path",
+			"name": "path",
+			"description": "The URL to which this service will send the request.",
+			"type": "urlParams",
+			"required": "true"
+		},
+		{
+			"label": "Headers",
+			"name": "headers",
+			"description": "Let the client and the server pass additional information with the HTTP request in a key value format. (e.g. key=ABC123)",
+			"type": "keyValue"
+		},
+		{
+			"label": "Query Params",
+			"name": "params",
+			"description": "Parameters attached to the end of a url in a key value format. (e.g. key=ABC123)",
+			"type": "keyValue"
+		},
+		{
+			"label": "Body",
+			"name": "body",
+			"type": "json",
+			"description": "Content to be sent to the server.",
+			"options": {
+				"allowContextSelector": "true"
+			}
+		},
+		{
+			"label": "Override Settings",
+			"name": "overrideSettings",
+			"type": "boolean",
+			"description": "If true, allows adding configurations",
+			"defaultValue": false,
+			"options": {
+				"allowContextSelector": "false"
+			}
+		},
+		{
+			"label": "Follow Redirects",
+			"name": "followRedirects",
+			"type": "boolean",
+			"description": "Follow the redirects when a HTTP request is executed",
+			"visibility": "config.overrideSettings",
+			"defaultValue": false,
+			"options": {
+				"allowContextSelector": "false"
+			}
+		},
+		{
+			"label": "Download",
+			"name": "download",
+			"type": "boolean",
+			"description": "Indicates that the resource has to be downloaded into a file instead of returning it in the response.",
+			"visibility": "config.overrideSettings && config.events != \"fileDownloaded\"",
+			"defaultValue": false,
+			"options": {
+				"allowContextSelector": "false"
+			}
+		},
+		{
+			"label": "File Name",
+			"name": "fileName",
+			"description": "If provided, the file will be stored with this name. If empty the file name will be calculated from the URL.",
+			"visibility": "(config.overrideSettings && config.download) || config.events === \"fileDownloaded\"",
+			"type": "text",
+			"options": {
+				"allowContextSelector": "true"
+			}
+		},
+		{
+			"label": "Full Response",
+			"name": "fullResponse",
+			"type": "boolean",
+			"description": "Include extended information about response",
+			"visibility": "config.overrideSettings",
+			"defaultValue": false,
+			"options": {
+				"allowContextSelector": "false"
+			}
+		},
+		{
+			"label": "Connection timeout",
+			"name": "connectionTimeout",
+			"description": "Connect timeout interval, in milliseconds (0 = infinity). Default value: 5000 ms (5 sec)",
+			"visibility": "config.overrideSettings",
+			"type": "text",
+			"defaultValue": "5000",
+			"typeOptions": {
+				"validation": {
+					"function": "!config.connectionTimeout || utils.isPlaceholder(config.connectionTimeout) || utils.getInteger(config.connectionTimeout) >= 0",
+					"message": "The time must be a valid placeholder or a positive integer greater than or equal to 0. "
+				}
+			},
+			"options": {
+				"allowContextSelector": "false"
+			}
+		},
+		{
+			"label": "Read timeout",
+			"name": "readTimeout",
+			"description": "Read timeout interval, in milliseconds (0 = infinity). Default value: 60000 ms (60 sec)",
+			"visibility": "config.overrideSettings",
+			"type": "text",
+			"defaultValue": "60000",
+			"typeOptions": {
+				"validation": {
+					"function": "!config.readTimeout || utils.isPlaceholder(config.readTimeout) || utils.getInteger(config.readTimeout) >= 0",
+					"message": "The time must be a valid placeholder or a positive integer greater than or equal to 0. "
+				}
+			},
+			"options": {
+				"allowContextSelector": "false"
+			}
+		}
+	],
+	"outputs": [
+		{
+			"label": "Response",
+			"name": "response",
+			"type": "object",
+			"description": "The response to external URL"
+		}
+	]
 }

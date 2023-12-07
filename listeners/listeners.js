@@ -14,16 +14,14 @@ listeners.defaultWebhookMandrill = {
     },
     callback: function(event) {
         sys.logs.info('Received Mandrill webhook. Processing and triggering a package event.');
+        sys.logs.debug("Mandrill event object: "+ JSON.stringify(event));
         var body = JSON.stringify(event.data.body);
         var params = event.data.parameters;
-        if(true) {
-            sys.logs.info('Valid webhook received. Triggering event.');
-            sys.events.triggerEvent('mandrill:webhook', {
-                body: body,
-                params: params
-            });
-            return "ok";
-        }
-        else throw new Error("Invalid webhook");
+        sys.logs.info('Triggering mandrill event [webhook]');
+        sys.events.triggerEvent('mandrill:webhook', {
+            body: body,
+            params: params
+        });
+        return "ok";
     }
 };

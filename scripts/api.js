@@ -39,6 +39,24 @@ for (let key in httpDependency) {
 }
 
 /****************************************************
+ Helpers
+ ****************************************************/
+
+exports.messages.send.post = function(httpOptions) {
+    var url = parse('/messages/send');
+
+    if (httpOptions.message !== null) {
+        httpOptions.message.from_email = config.get("account");
+        httpOptions.message.headers = {}
+    }
+
+    sys.logs.debug('[mandrill] POST from: ' + url);
+    var options = checkHttpOptions(url, httpOptions);
+
+    return httpService.post(Mandrill(options));
+};
+
+/****************************************************
  Public API - Generic Functions
  ****************************************************/
 

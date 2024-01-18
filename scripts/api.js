@@ -42,6 +42,10 @@ for (let key in httpDependency) {
  Helpers
  ****************************************************/
 
+exports.messages = {};
+
+exports.messages.send = {};
+
 exports.messages.send.post = function(httpOptions) {
     var url = parse('/messages/send');
 

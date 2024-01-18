@@ -76,8 +76,7 @@
             "name": "MANDRILL_API_BASE_URL",
             "label": "Mandrill Api Url",
             "type": "label",
-            "value": "https://mandrillapp.com/api/1.0",
-            "visibility": false
+            "value": "https://mandrillapp.com/api/1.0"
         }
     ],
     "events": [

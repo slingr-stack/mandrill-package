@@ -22,6 +22,5 @@ listeners.defaultWebhookMandrill = {
             body: body,
             params: params
         });
-        return "ok";
     }
 };

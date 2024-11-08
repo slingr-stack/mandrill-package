@@ -18,9 +18,6 @@ listeners.defaultWebhookMandrill = {
         var body = JSON.stringify(event.data.body);
         var params = event.data.parameters;
         sys.logs.info('Triggering mandrill event [webhook]');
-        sys.events.triggerEvent('mandrill:webhook', {
-            body: body,
-            params: params
-        });
+        sys.events.triggerEvent('mandrill:webhook', event.data);
     }
 };

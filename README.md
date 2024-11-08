@@ -14,14 +14,11 @@ one-to-one e-commerce emails, or automated transactional emails.
 ### API key
 API to access to Mandrill service
 
-### Sender name
-Name of the sender of the emails
-
 ### Sender account
 Account to use as sender of the emails (Do not include the @ and the domain).
 
-### Sender domain
-Domain to use as sender of the emails (Do not include the @ and the account name).
+### Sender name
+Name of the sender of the emails
 
 ### Redirect emails
 If it is enabled, all the emails will be sent to the redirect address instead to the real ones. This parameter is available only in dev environments.
@@ -29,17 +26,29 @@ If it is enabled, all the emails will be sent to the redirect address instead to
 ### Redirect to address
 Redirect address used as receiver of all the emails when the redirect option is enabled. This parameter is available only in dev environments.
 
+### Webhook URL
+The Webhook URL is a generated URL that follows the pattern `https://<appName>.slingrs.io/<environment>/services/<httpServiceName>/mandril`. This is the URL you should configure in your Mandrill app to receive events.
+
 ## Events
 
 ### Webhook
 
-Mandrill's webhooks allow your application to receive information about email events as they occur.
+Incoming webhook events will be automatically captured by the default listener named `Catch HTTP Mandrill Events`, which can be found below the `Scripts` section. Alternatively, you have the option to create a new package listener. For more information, please refer to the [Listeners Documentation](https://platform-docs.slingr.io/dev-reference/data-model-and-logic/listeners/).
 
-### Received email
-Event thrown when an email is received by the Mandrill service
+Mandrill's webhooks enable your application to receive real-time updates about email events. The following events can be triggered:
 
-### Received response to a previously sent email
-Events thrown when an email is received by the Mandrill service as response to a previously sent email through the messages.send or messages.sendTemplate functions.
+- `Message is sent`
+- `Message is delayed`
+- `Message is soft-bounced`
+- `Message is clicked`
+- `Message recipient unsubscribes`
+- `Rejection Denylist changes`
+- `Message is delivered`
+- `Message is bounced`
+- `Message is opened`
+- `Message is marked as spam`
+- `Message is rejected`
+- `Rejection Allowlist changes`
 
 # Javascript API
 
@@ -140,9 +149,6 @@ The [Mailchimp Transactional API](https://mailchimp.com/developer/transactional/
 * `POST /rejects/delete`: Remove an email address from your rejection denylist.
 
 These endpoints cover the essential functionalities for sending emails, managing templates, handling sender domains, organizing emails with tags, setting up webhooks for event notifications, and managing rejection lists. For detailed information on each endpoint, refer to the [Mailchimp Transactional API Reference](https://mailchimp.com/developer/transactional/api/).
-
-# Listening Webhooks
-Once the webhook URL has been configured in your Mandrill app, the incoming webhook events will be caught automatically using the default listener named: `Catch HTTP Mandrill Events`, which appears below the scripts section. Alternatively, you can create a new package listener. For further details, please follow this link: [Listeners Documentation](https://platform-docs.slingr.io/dev-reference/data-model-and-logic/listeners/)
 
 ## Dependencies
 * HTTP Service (Latest Version)

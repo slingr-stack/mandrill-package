@@ -1,12 +1,11 @@
 {
     "name": "mandrill",
-    "label": "Mandrill Package",
+    "label": "Mandrill",
     "dependencies": [
         {
             "type": "service",
             "name": "http",
-            "version": "v1.2.6",
-            "instanceId": "shared"
+            "version": "v1.2.6"
         }
     ],
     "configuration": [
@@ -101,16 +100,6 @@
             "type": "listener",
             "namespace": "listeners",
             "path": "/listeners/listeners.js"
-        },
-        {
-            "type": "flowStep",
-            "namespace": "apiCallMandrill",
-            "path": "/flowSteps/apiCallMandrill"
-        },
-        {
-            "type": "flowStep",
-            "namespace": "sendEmailMandrill",
-            "path": "/flowSteps/sendEmailMandrill"
         }
     ]
 }

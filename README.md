@@ -141,6 +141,8 @@ The [Mailchimp Transactional API](https://mailchimp.com/developer/transactional/
 
 These endpoints cover the essential functionalities for sending emails, managing templates, handling sender domains, organizing emails with tags, setting up webhooks for event notifications, and managing rejection lists. For detailed information on each endpoint, refer to the [Mailchimp Transactional API Reference](https://mailchimp.com/developer/transactional/api/).
 
+# Listening Webhooks
+Once the webhook URL has been configured in your Mandrill app, the incoming webhook events will be caught automatically using the default listener named: `Catch HTTP Mandrill Events`, which appears below the scripts section. Alternatively, you can create a new package listener. For further details, please follow this link: [Listeners Documentation](https://platform-docs.slingr.io/dev-reference/data-model-and-logic/listeners/)
 
 ## Dependencies
 * HTTP Service (Latest Version)

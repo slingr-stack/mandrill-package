@@ -32,21 +32,21 @@ Name of the sender of the emails
 **Type**: text
 **Mandatory**: true
 
-### Redirect emails
+#### Redirect emails
 If it is enabled, all the emails will be sent to the redirect address instead to the real ones. This parameter is available only in dev environments.
 
 **Name**: redirectEnabled
 **Type**: buttonsGroup
 **Mandatory**: true
 
-### Redirect to address
+#### Redirect to address
 Redirect address used as receiver of all the emails when the redirect option is enabled. This parameter is available only in dev environments.
 
 **Name**: redirectEmail
 **Type**: text
 **Mandatory**: false
 
-### Webhook URL
+#### Webhook URL
 The Webhook URL is a generated URL that follows the pattern `https://<appName>.slingrs.io/<environment>/services/<httpServiceName>/mandril`. This is the URL you should configure in your Mandrill app to receive events.
 
 ## Events

@@ -98,7 +98,7 @@
         },
         {
             "type": "listener",
-            "namespace": "listeners",
+            "namespace": "webhook",
             "path": "/listeners/webhook.js"
         }
     ]

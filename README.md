@@ -11,20 +11,40 @@ one-to-one e-commerce emails, or automated transactional emails.
 - You will need to configure the Webhook URL as a route inside the registered inbound domain: [Inbound page](https://mandrillapp.com/inbound)
 - A new webhook (as well as the one that we use as inbound webhook) can be configured to receive different kinds of message and sync events: [Webhooks page](https://mandrillapp.com/settings/webhooks)
 
-### API key
+#### API key
 API to access to Mandrill service
 
-### Sender account
+**Name**: apiKey
+**Type**: text
+**Mandatory**: true
+
+#### Sender account
 Account to use as sender of the emails (Do not include the @ and the domain).
 
-### Sender name
+**Name**: account
+**Type**: text
+**Mandatory**: true
+
+#### Sender name
 Name of the sender of the emails
+
+**Name**: fromName
+**Type**: text
+**Mandatory**: true
 
 ### Redirect emails
 If it is enabled, all the emails will be sent to the redirect address instead to the real ones. This parameter is available only in dev environments.
 
+**Name**: redirectEnabled
+**Type**: buttonsGroup
+**Mandatory**: true
+
 ### Redirect to address
 Redirect address used as receiver of all the emails when the redirect option is enabled. This parameter is available only in dev environments.
+
+**Name**: redirectEmail
+**Type**: text
+**Mandatory**: false
 
 ### Webhook URL
 The Webhook URL is a generated URL that follows the pattern `https://<appName>.slingrs.io/<environment>/services/<httpServiceName>/mandril`. This is the URL you should configure in your Mandrill app to receive events.
@@ -98,6 +118,18 @@ Send new message using template and attaching files:
         }
     }); 
 
+```
+You can send an email in the same way, but using the Mandrill helper (the `from_name` field is automatically filled with the value defined in the configuration, and by default, the path `/messages/send` is used), as follows:
+
+```javascript
+pkg.mandrill.api.messages.send.post({
+    message: {
+      from_name: "ACME",
+      subject: "Password expiration",
+      to: [{email: "test@slingr.io"}],
+      html: "<h1>Important:</h1><p>Your password is about to expire!</p><p>Please <a href='https://your-reset-password-link.com'>click here</a> to reset your password.</p>"
+  }
+});
 ```
 
 Please take a look at the documentation of the [HTTP service](https://github.com/slingr-stack/http-service)

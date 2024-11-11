@@ -151,7 +151,7 @@ The [Mailchimp Transactional API](https://mailchimp.com/developer/transactional/
 These endpoints cover the essential functionalities for sending emails, managing templates, handling sender domains, organizing emails with tags, setting up webhooks for event notifications, and managing rejection lists. For detailed information on each endpoint, refer to the [Mailchimp Transactional API Reference](https://mailchimp.com/developer/transactional/api/).
 
 ## Dependencies
-* HTTP Service (Latest Version)
+* HTTP Service
 
 # Working with packages locally
 

@@ -185,7 +185,7 @@ These endpoints cover the essential functionalities for sending emails, managing
 ## Dependencies
 * HTTP Service
 
-# About SLINGR
+# About Slingr
 
 SLINGR is a low-code rapid application development platform that accelerates development, with robust architecture for integrations and executing custom workflows and automation.
 

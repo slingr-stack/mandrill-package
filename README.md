@@ -153,11 +153,6 @@ These endpoints cover the essential functionalities for sending emails, managing
 ## Dependencies
 * HTTP Service
 
-# Working with packages locally
-
-You can follow this link, in order to know how to work locally with packages. 
-[More info about Packages](https://github.com/slingr-stack/platform/wiki/How-To-Commons#Packages)
-
 # About SLINGR
 
 SLINGR is a low-code rapid application development platform that accelerates development, with robust architecture for integrations and executing custom workflows and automation.

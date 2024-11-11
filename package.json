@@ -99,7 +99,7 @@
         {
             "type": "listener",
             "namespace": "listeners",
-            "path": "/listeners/listeners.js"
+            "path": "/listeners/webhook.js"
         }
     ]
 }

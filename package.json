@@ -100,7 +100,7 @@
         {
             "type": "listener",
             "namespace": "webhook",
-            "path": "/webhook/webhook.js"
+            "path": "/listeners/webhook.js"
         },
         {
             "type": "script",

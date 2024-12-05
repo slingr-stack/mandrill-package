@@ -21,15 +21,13 @@
             "name": "account",
             "label": "Sender account",
             "description": "Account to use as sender of the emails",
-            "type": "text",
-            "required": true
+            "type": "text"
         },
         {
             "name": "fromName",
             "label": "Sender name",
             "description": "Name of the sender of the emails",
-            "type": "text",
-            "required": true
+            "type": "text"
         },
         {
             "name": "webhook",

@@ -1,6 +1,8 @@
 
 # Overview
 
+Repo: [https://github.com/slingr-stack/mandrill-package](https://github.com/slingr-stack/mandrill-package)
+
 Mandrill is an email infrastructure service offered as an add-on for MailChimp that you can use to send personalized,
 one-to-one e-commerce emails, or automated transactional emails.
 

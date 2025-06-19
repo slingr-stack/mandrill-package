@@ -50,6 +50,8 @@ exports.messages.send.post = function(httpOptions) {
     return httpService.post(Mandrill(options));
 };
 
+exports.messages.sendTemplate = {};
+
 exports.messages.sendTemplate.post = function(httpOptions) {
     var url = parse('/messages/send-template');
 

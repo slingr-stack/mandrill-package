@@ -50,6 +50,20 @@ exports.messages.send.post = function(httpOptions) {
     return httpService.post(Mandrill(options));
 };
 
+exports.messages.sendTemplate.post = function(httpOptions) {
+    var url = parse('/messages/send-template');
+
+    if (httpOptions.message !== null) {
+        httpOptions.message.from_email = config.get("account");
+        httpOptions.message.headers = {}
+    }
+
+    sys.logs.debug('[mandrill] POST from: ' + url);
+    var options = checkHttpOptions(url, httpOptions);
+
+    return httpService.post(Mandrill(options));
+};
+
 /****************************************************
  Public API - Generic Functions
  ****************************************************/
